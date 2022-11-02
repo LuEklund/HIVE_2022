@@ -23,17 +23,22 @@ static int ft_strlen(char const *str)
 
 char *ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
+	if(!s || !f)
+		return(0);
 	char *str_return;
 	int len;
 	int i;
 	i = 0;
 	len = ft_strlen(s);
-	str_return = (char *)malloc(sizeof(char *)*(len +1));
+	str_return = (char *)malloc(sizeof(char *)*(len + 1));
+	if(!str_return)
+		return(0);
 	
 	while(s[i])
 	{
 		str_return[i] = f(i,s[i]);
 		i++;
 	}
+	str_return[i] = '\0';
 	return(str_return);
 }

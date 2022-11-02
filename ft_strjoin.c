@@ -25,6 +25,8 @@ static int ft_strlen(char const *str)
 
 char *ft_strjoin(char const *s1, char const *s2)
 {
+	if(!s1 || !s2)
+		return(0);
 	char *str;
 	int i = 0;
 	int y = 0;

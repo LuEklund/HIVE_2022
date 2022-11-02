@@ -56,7 +56,6 @@ char **ft_split(char const *s, char c)
 
         ptr_arr[Arri++] = (char *)malloc(sizeof(char)*(i2+1));
     }
-    printf("ptr_arr[%d] = null\n",Arri);
     ptr_arr[Arri] = (char *)malloc(sizeof(char)*(1));
     s = checkpoint;
     i = 0;

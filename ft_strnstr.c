@@ -28,6 +28,8 @@ static int ft_strlen(char const *str)
 
 char *ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
+	if(!*needle)
+		return((char *)haystack);
 	size_t i;
 	int y;
 	int nlen;

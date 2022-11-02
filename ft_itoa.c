@@ -38,15 +38,27 @@ char *ft_itoa(int n)
 	mod = 0;
 	isNegative = 0;
 	i = nblen(n);
+	
+	if(n == -2147483648)
+	{
+		str = (char *)malloc(sizeof(char) * (11 + 1));
+		if(!str)
+			return(0);
+		str = "-2147483648\0";
+		return(str);
+	}
 	str = (char *)malloc(sizeof(char) * (i + 1));
+	if(!str)
+		return(0);
+
 	if(n < 0)
 	{
 		isNegative = 1;
 		n=n*-1;
 		str[0] = '-';
 	}
-	str[i+1] = '\0';
-	while(i > 0+isNegative)
+	str[i] = '\0';
+	while(i > isNegative)
 	{
 		i--;
 		mod = n % 10;

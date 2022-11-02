@@ -23,40 +23,42 @@ static int ft_strlen(char const *str)
 
 char *ft_strtrim(char const *s1, char const *set)
 {
-	char *str;
-	char *return_str;
-	str = (char *)malloc(sizeof(char)*(ft_strlen(s1) + 1));
-	int i;
-	i = 0;
-	int y;
-	y = 0;
-	int same;
-	same = 0;
-	while(s1[i] != '\0')
-	{
-		str[i] = s1[i];
-		while(set[y] != '\0')
-		{
-			if(set[y] == s1[i])
-				str[i] = '\0';
-			y++;
-		}
-		if(s1[i] == str[i])
-			same++;
-		y = 0;
-		i++;
-	}
-	return_str = (char *)malloc(sizeof(char)*(same + 1));
-	i = 0;
-	while(s1[i] != '\0')
-	{
-		if(s1[i] == str[i])
-		{
-			return_str[y] = s1[i];
-			y++;
-		}
-		i++;
-	}
-	
-	return(return_str);
+    int str_len;
+    int y;
+    int i;
+    char *return_str;
+    str_len = ft_strlen(s1)-1;
+    i = 0;
+    y = 0;
+    while(s1[i] != '\0' && set[y] != '\0')
+    {
+        y = 0;
+        while(s1[i] != set[y] && set[y] != '\0')
+            y++;
+        i++;
+    }
+    i--;
+    y = 0;
+    while(str_len > 0 && set[y] != '\0')
+    {
+        y = 0;
+        while(s1[str_len] != set[y] && set[y] != '\0')
+        {
+            y++;
+        }
+        str_len--;
+    }
+    str_len++;
+    return_str = (char *)malloc(sizeof(char)*(str_len-i+2));
+    if(!return_str)
+        return(0);
+    y = 0;
+    while(str_len+1-i > 0)
+    {
+        return_str[y] = *(s1+i+y);
+        y++;
+        str_len--;
+    }
+    return_str[y] = '\0';
+    return(return_str);
 }
