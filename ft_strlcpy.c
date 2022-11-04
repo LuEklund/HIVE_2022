@@ -11,32 +11,31 @@
 /* ************************************************************************** */
 #include<stdlib.h>
 
-// static int ft_strlen(const char *str)
-// {
-// 	int i;
-// 	i = 0;
-// 	while(str[i])
-// 	{
-// 		i++;
-// 	}
-// 	return(i);
-// }
+static int ft_strlen(const char *str)
+{
+	int i;
+	i = 0;
+	while(str[i])
+	{
+		i++;
+	}
+	return(i);
+}
 
-size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
+size_t ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	
 	size_t i;
+	int src_len;
+	src_len = ft_strlen(src);
 	i = 0;
-	while(src[i] != '\0')
+	if(size == 0)
+	 	return(src_len);
+	while(src[i] != '\0' && size-1 > i)
 	{
-		if(dstsize-1 < i)
-			return(0);
-		if(i < dstsize-1)
-			dst[i] = src[i];
-		else
-			dst[i] = '\0';
+		dst[i] = src[i];
 		i++;
 	}
 	dst[i] = '\0';
-	return(i);
+	return(src_len);
 }

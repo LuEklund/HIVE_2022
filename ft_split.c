@@ -10,68 +10,71 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
-#include <stdio.h>
-static char *ft_strchr(const char *s, int c)
+
+
+static int eliminator_real_size(char const *s, char c)
 {
-    int i = 0;
-    while(s[i] != '\0')
+    int i;
+    i = 0;
+    while(*s == c && *s != '\0')
+        s++;
+    while(*s != '\0')
     {
-        if(s[i] == c)
-            return((char *)s+i);
+        while(*s != c && *s != '\0')
+            s++;
+        while(*s == c && *s != '\0')
+            s++;
         i++;
     }
-    return(0);
+    return(i);
+}
+
+static void substr_mallocing(char const *s, char c, char **ptr_arr)
+{
+    int i;
+    const char *checkpoint;
+    int MainI;
+    MainI = 0;
+    while(*s != '\0')
+    {
+        i = 0;
+        while(*s != c && *s != '\0')
+        {
+            s++;
+            i++;
+        }
+        ptr_arr[MainI] = (char *)malloc(sizeof(char)*(i+1));
+        ptr_arr[MainI][i--] = '\0';
+        checkpoint = s;
+        while(i >= 0)
+        {
+            ptr_arr[MainI][i] = *--s;
+            i--;
+        }
+        s = checkpoint;
+        while(*s == c && *s != '\0')
+            s++;
+        MainI++;
+    }
 }
 
 char **ft_split(char const *s, char c)
 {
-    char const *find_next;
-    char const *checkpoint;
-    checkpoint = s;
-    find_next = s;
-
-    //count amount of deliminators(c) in string(s)
     int i;
-    i = 0;
-    while((find_next = ft_strchr(find_next,c)))
-    {
-        i++;
-        find_next++;
-    }
     char **ptr_arr;
-    ptr_arr = malloc(sizeof(char *) * (i+2));
-    int i2;
-    int Arri;
-    Arri = 0;
-    while(i >= 0)
-    {
-        i2 = 0;
-        while(*s && *s != c)
-        {
-            i2++;
-            s++;
-        }
-        i--;
-        s++;
-
-        ptr_arr[Arri++] = (char *)malloc(sizeof(char)*(i2+1));
-    }
-    ptr_arr[Arri] = (char *)malloc(sizeof(char)*(1));
-    s = checkpoint;
+    if(!s)
+        return(0);
     i = 0;
-    while(Arri >= 0)
-    {
-        i2 = 0;
-        while(*s && *s != c)
-        {
-            ptr_arr[i][i2] = *s;
-            i2++;
-            s++;
-        }
-        ptr_arr[i][i2] = '\0';
-        i++;
-        Arri--;
+    while(*s == c && *s != '\0')
         s++;
-    }
+    i = eliminator_real_size(s,c);
+    ptr_arr = malloc(sizeof(char *) * (i+1));
+    if(!ptr_arr)
+        return(0);
+    ptr_arr[i] = NULL;
+    substr_mallocing(s,c,ptr_arr);
+   
+    
+
     return(ptr_arr);
 }

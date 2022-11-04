@@ -10,33 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
-static int ft_strlen(char *str)
+static size_t string_length(const char *str)
 {
-	int i;
-	i = 0;
-	while(str[i] != '\0')
-	{
-		i++;
-	}
-	return(i);
+	size_t index;
+	index = 0;
+	while (str[index] != '\0')
+		index++;
+	return (index);
 }
 
-size_t ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t ft_strlcat(char *dst, const char *src, size_t size)
 {
-	int dst_size;
-	int tot_size;
-	dst_size = ft_strlen(dst);
-	tot_size = dst_size + ft_strlen((char *) src);
-	size_t i;
-	int y;
-	y = 0;
-	i = dst_size;
-	while(i < dstsize-1)
-	{
-		dst[i] = src[y];
-		i++;
-		y++;
-	}
-	dst[i] = '\0';
-	return(tot_size);
+	size_t  len;
+    size_t  src_len;
+
+    len = 0;
+    src_len = string_length(src);
+    if (size == 0)
+        return (src_len + len);
+    while (*dst && size > 0)
+    {
+        dst++;
+        len++;
+        size--;
+    }
+    while (*src && size-- > 1) 
+        *dst++ = *src++;
+    if (size == 1 || *src == 0) 
+        *dst = '\0';
+    return (src_len  + len);
 }

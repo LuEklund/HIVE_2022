@@ -23,6 +23,8 @@ static int ft_strlen(char const *str)
 
 char *ft_strtrim(char const *s1, char const *set)
 {
+    if(!s1)
+        return(0);
     int str_len;
     int y;
     int i;

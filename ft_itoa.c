@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include <stdlib.h>
 
-static int nblen(int nb)
+static int nblen(long int nb)
 {
 	int i;
 	i = 1;
@@ -20,7 +20,7 @@ static int nblen(int nb)
 		i++;
 		nb = nb*-1;
 	}
-	while(nb > 10)
+	while(nb >= 10)
 	{
 		nb = nb/10;
 		i++;
@@ -29,24 +29,18 @@ static int nblen(int nb)
 }
 
 
-char *ft_itoa(int n)
+char *ft_itoa(int nint)
 {
 	int mod;
 	int isNegative;
 	char *str;
 	int i;
+	long int n;
+	n = nint;
 	mod = 0;
 	isNegative = 0;
-	i = nblen(n);
 	
-	if(n == -2147483648)
-	{
-		str = (char *)malloc(sizeof(char) * (11 + 1));
-		if(!str)
-			return(0);
-		str = "-2147483648\0";
-		return(str);
-	}
+	i = nblen(n);
 	str = (char *)malloc(sizeof(char) * (i + 1));
 	if(!str)
 		return(0);
