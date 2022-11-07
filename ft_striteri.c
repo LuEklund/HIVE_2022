@@ -11,16 +11,16 @@
 /* ************************************************************************** */
 #include <stdlib.h>
 
-void ft_striteri(char *s, void (*f)(unsigned int, char*))
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	if(s && f)
+	int	i;
+
+	if (s && f)
 	{
-		int i;
 		i = 0;
-		
-		while(*s)
+		while (*s)
 		{
-			f(i,s);
+			f(i, s);
 			i++;
 			s++;
 		}

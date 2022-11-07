@@ -10,27 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-static int len (const char *str)
+static int	len(const char *str)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	while(str[i] != '\0')
+	while (str[i] != '\0')
 	{
 		i++;
 	}
-	return(i);
-
+	return (i);
 }
 
-char *ft_strrchr(const char *s, int c)
+char	*ft_strrchr(const char *s, int c)
 {
 	int	length;
+
 	length = len(s);
-	while(length >= 0)
+	while (length >= 0)
 	{
-		if(s[length] == c)
-			return((char *)s+length);
+		if (s[length] == (char)c)
+			return ((char *)s + length);
 		length--;
 	}
-	return(0);
+	return (0);
 }

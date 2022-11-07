@@ -11,22 +11,23 @@
 /* ************************************************************************** */
 #include <unistd.h>
 
-static void ft_putchar_fd(char c, int fd)
+static void	ft_putchar_fd(char c, int fd)
 {
-	write(fd,&c,1);
+	write(fd, &c, 1);
 }
 
-void ft_putendl_fd(char *s, int fd)
+void	ft_putendl_fd(char *s, int fd)
 {
-	if(s)
+	int	i;
+
+	if (s)
 	{
-		int i;
 		i = 0;
-		while(s[i])
+		while (s[i])
 		{
-			ft_putchar_fd(s[i],fd);
+			ft_putchar_fd(s[i], fd);
 			i++;
 		}
-		write(fd,"\n",1);
+		write(fd, "\n", 1);
 	}
 }

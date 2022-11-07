@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_isascii(int c)
+int	ft_isascii(int c)
 {
-	if(c >= 0x00 && c < 0x80)
-		return(1);
+	if (c >= 0x00 && c < 0x80)
+		return (1);
 	else
-		return(0);
+		return (0);
 }

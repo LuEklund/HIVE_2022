@@ -10,35 +10,46 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include<stdio.h>
-int ft_atoi(const char *nptr)
+
+static int	overflow_return(int isnegative)
 {
-	long int value;
-	int isNegative;
-	isNegative = 0;
+	if (isnegative)
+		return (0);
+	return (-1);
+}
+
+static int	blank_skipper(int i, const char *nptr)
+{
+	while ((nptr[i] > 8 && nptr[i] < 14) || nptr[i] == 32)
+		i++;
+	return (i);
+}
+
+int	ft_atoi(const char *nptr)
+{
+	long int	value;
+	int			isnegative;
+	int			i;
+
+	isnegative = 0;
 	value = 0;
-	int i;
 	i = 0;
-	while((nptr[i] > 8 && nptr[i] < 14) || nptr[i] == 32)
-		i++;
-	if(nptr[i] == '-')
+	i = blank_skipper(i, nptr);
+	if (nptr[i] == '-')
 	{
-		isNegative = 1;
+		isnegative = 1;
 		i++;
 	}
-	else if(nptr[i] == '+')
+	else if (nptr[i] == '+')
 		i++;
-	while((nptr[i] != '\0' && nptr[i] > 47 && nptr[i] < 58))
+	while ((nptr[i] != '\0' && nptr[i] > 47 && nptr[i] < 58))
 	{
-		value = value*10 + nptr[i] - '0';
+		value = value * 10 + nptr[i] - '0';
 		i++;
-		if(value < 0)
-		{
-			if (isNegative)
-				return(0);
-			return(-1);
-		}
+		if (value < 0)
+			return (overflow_return(isnegative));
 	}
-	if (isNegative)
-		return((int)value * -1);
+	if (isnegative)
+		return ((int)value * -1);
 	return ((int) value);
 }

@@ -9,12 +9,14 @@
 /*   Updated: 2022/10/25 18:03:51 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-int	ft_strlen (const char *str)
+int	ft_strlen(const char *str)
 {
-	int	count = 0;
-	for (int i = 0; str[i] != '\0'; i++)
+	int	count;
+
+	count = 0;
+	while (str[count] != '\0')
 	{
 		count++;
 	}
-	return(count);
+	return (count);
 }

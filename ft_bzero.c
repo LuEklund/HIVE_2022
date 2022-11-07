@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
-void ft_bzero(void *s, size_t n)
+
+void	ft_bzero(void *s, size_t n)
 {
-	char *str = s;
-	size_t i = 0;
-	while(i < n)
+	char	*str;
+	size_t	i;
+
+	str = s;
+	i = 0;
+	while (i < n)
 	{
 		str[i++] = '\0';
 	}

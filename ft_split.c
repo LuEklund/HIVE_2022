@@ -6,75 +6,76 @@
 /*   By: leklund <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 19:39:43 by leklund           #+#    #+#             */
-/*   Updated: 2022/10/29 19:39:45 by leklund          ###   ########.fr       */
+/*   Updated: 2022/11/07 18:09:03 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
 
-
-static int eliminator_real_size(char const *s, char c)
+static int	eliminator_real_size(char const *s, char c)
 {
-    int i;
-    i = 0;
-    while(*s == c && *s != '\0')
-        s++;
-    while(*s != '\0')
-    {
-        while(*s != c && *s != '\0')
-            s++;
-        while(*s == c && *s != '\0')
-            s++;
-        i++;
-    }
-    return(i);
+	int	i;
+
+	i = 0;
+	while (*s == c && *s != '\0')
+		s++;
+	while (*s != '\0')
+	{
+		while (*s != c && *s != '\0')
+			s++;
+		while (*s == c && *s != '\0')
+			s++;
+		i++;
+	}
+	return (i);
 }
 
-static void substr_mallocing(char const *s, char c, char **ptr_arr)
+static void	substr_filler(char **ptr_arr, int main_index, int i, const char *s)
 {
-    int i;
-    const char *checkpoint;
-    int MainI;
-    MainI = 0;
-    while(*s != '\0')
-    {
-        i = 0;
-        while(*s != c && *s != '\0')
-        {
-            s++;
-            i++;
-        }
-        ptr_arr[MainI] = (char *)malloc(sizeof(char)*(i+1));
-        ptr_arr[MainI][i--] = '\0';
-        checkpoint = s;
-        while(i >= 0)
-        {
-            ptr_arr[MainI][i] = *--s;
-            i--;
-        }
-        s = checkpoint;
-        while(*s == c && *s != '\0')
-            s++;
-        MainI++;
-    }
+	while (i >= 0)
+	{
+		ptr_arr[main_index][i] = *--s;
+		i--;
+	}
 }
 
-char **ft_split(char const *s, char c)
+static void	substr_mallocing(char const *s, char c, char **ptr_arr)
 {
-    int i;
-    char **ptr_arr;
-    if(!s)
-        return(0);
-    i = 0;
-    while(*s == c && *s != '\0')
-        s++;
-    i = eliminator_real_size(s,c);
-    ptr_arr = malloc(sizeof(char *) * (i+1));
-    if(!ptr_arr)
-        return(0);
-    ptr_arr[i] = NULL;
-    substr_mallocing(s,c,ptr_arr);
-   
-    
+	int			i;
+	int			main_index;
 
-    return(ptr_arr);
+	main_index = 0;
+	while (*s != '\0')
+	{
+		i = 0;
+		while (*s != c && *s != '\0')
+		{
+			s++;
+			i++;
+		}
+		ptr_arr[main_index] = (char *)malloc(sizeof(char) * (i + 1));
+		ptr_arr[main_index][i--] = '\0';
+		substr_filler(ptr_arr, main_index, i, s);
+		while (*s == c && *s != '\0')
+			s++;
+		main_index++;
+	}
+}
+
+char	**ft_split(char const *s, char c)
+{
+	int		i;
+	char	**ptr_arr;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (*s == c && *s != '\0')
+		s++;
+	i = eliminator_real_size(s, c);
+	ptr_arr = malloc(sizeof(char *) * (i + 1));
+	if (!ptr_arr)
+		return (0);
+	ptr_arr[i] = NULL;
+	substr_mallocing(s, c, ptr_arr);
+	return (ptr_arr);
 }

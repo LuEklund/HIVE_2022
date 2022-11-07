@@ -10,35 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
-static int ft_strlen(char const *str)
+
+static int	ft_strlen(char const *str)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		i++;
 	}
-	return(i);
+	return (i);
 }
 
-char *ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	if(!s || !f)
-		return(0);
-	char *str_return;
-	int len;
-	int i;
+	char	*str_return ;
+	int		len;
+	int		i;
+
+	if (!s || !f)
+		return (0);
 	i = 0;
 	len = ft_strlen(s);
-	str_return = (char *)malloc(sizeof(char)*(len + 1));
-	if(!str_return)
-		return(0);
-	
-	while(s[i])
+	str_return = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str_return)
+		return (0);
+	while (s[i])
 	{
-		str_return[i] = f(i,s[i]);
+		str_return[i] = f(i, s[i]);
 		i++;
 	}
 	str_return[i] = '\0';
-	return(str_return);
+	return (str_return);
 }

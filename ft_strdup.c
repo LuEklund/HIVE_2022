@@ -11,34 +11,34 @@
 /* ************************************************************************** */
 #include <stdlib.h>
 
-
-static int ft_strlen(const char *str)
+static int	ft_strlen(const char *str)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		i++;
 	}
-	return(i);
+	return (i);
 }
 
-char *ft_strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
-	int size;
-	size = ft_strlen(s);
-	char *str;
-	str = (char *)malloc(sizeof(char)*(size + 1));
-	if(!str)
-		return(0);
+	int		size;
+	char	*str;
+	int		i;
 
-	int i;
+	size = ft_strlen(s);
+	str = (char *)malloc(sizeof(char) * (size + 1));
+	if (!str)
+		return (0);
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		str[i] = s[i];
 		i++;
 	}
 	str[i] = '\0';
-	return(str);
+	return (str);
 }

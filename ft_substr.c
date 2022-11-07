@@ -11,38 +11,54 @@
 /* ************************************************************************** */
 #include <stdlib.h>
 
-static unsigned int ft_strlen(const char *s)
+static unsigned int	ft_strlen(const char *s)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	while(s[i] != '\0')
+	while (s[i] != '\0')
 	{
 		i++;
 	}
-	return(i);
+	return (i);
 }
-char *ft_substr(char const *s, unsigned int start, size_t len)
+
+static int	size_to_malloc(char const *s, unsigned int start, size_t len)
 {
-	int i = 0;
-	char *str;
-	if(!s)
-		return(0);
-	
-	if(start >= ft_strlen(s))
+	int	i;
+
+	i = 0;
+	while (len > 0 && s[start + i] != '\0')
 	{
-		str = (char *)malloc(sizeof(char)*(1));
-		str[0] = '\0';
-		return(str);
+		i++;
+		len--;
 	}
-	str = (char *)malloc(sizeof(char)*(len + 1));
-	if(str == NULL)
-		return(NULL);
-	while(len > 0)
+	return (i);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (!s)
+		return (0);
+	if (start >= ft_strlen(s))
 	{
-		str[i] = s[start+i];
+		str = (char *)malloc(sizeof(char) *(1));
+		str[0] = '\0';
+		return (str);
+	}
+	str = (char *)malloc(sizeof(char) *(size_to_malloc(s, start, len) + 1));
+	if (str == NULL)
+		return (NULL);
+	while (len > 0 && s[i] != '\0')
+	{
+		str[i] = s[start + i];
 		len--;
 		i++;
 	}
 		str[i] = '\0';
-	return(str);
+	return (str);
 }

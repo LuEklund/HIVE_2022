@@ -10,13 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
-void *ft_memset(void *s, int c, size_t n)
+
+void	*ft_memset(void *s, int c, size_t n)
 {
-	char *str = s;
-	size_t i = 0;
-	while(i < n)
+	char	*str;
+	size_t	i;
+
+	str = s;
+	i = 0;
+	while (i < n)
 	{
 		str[i++] = (unsigned char)c;
 	}
-	return(s);
+	return (s);
 }
