@@ -9,24 +9,13 @@
 /*   Updated: 2022/10/26 11:13:42 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-static int	len(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
+#include "libft.h"
 
 char	*ft_strrchr(const char *s, int c)
 {
 	int	length;
 
-	length = len(s);
+	length = ft_strlen(s);
 	while (length >= 0)
 	{
 		if (s[length] == (char)c)

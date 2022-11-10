@@ -9,7 +9,6 @@
 /*   Updated: 2022/10/31 18:35:28 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {

@@ -9,19 +9,7 @@
 /*   Updated: 2022/11/07 18:05:32 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
-
-static int	ft_strlen(char const *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
+#include "libft.h"
 
 static int	trim_start(char const *s1, char const *set)
 {
@@ -60,27 +48,6 @@ static int	trim_end(char const *s1, char const *set, int str_len)
 	return (i);
 }
 
-static char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	int		i;
-	char	*str;
-
-	if (!s)
-		return (0);
-	i = 0;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	while (len > 0)
-	{
-		str[i] = s[start + i];
-		len--;
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		from_start;
@@ -95,6 +62,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (from_start >= str_len)
 	{
 		return_str = (char *)malloc(sizeof(char) * 1);
+		if (!return_str)
+			return (0);
 		return_str[0] = '\0';
 		return (return_str);
 	}

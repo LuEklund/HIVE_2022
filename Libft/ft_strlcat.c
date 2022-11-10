@@ -9,17 +9,7 @@
 /*   Updated: 2022/11/07 16:52:23 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
-
-static size_t	string_length(const char *str)
-{
-	size_t	index;
-
-	index = 0;
-	while (str[index] != '\0')
-		index++;
-	return (index);
-}
+#include "libft.h"
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
@@ -27,7 +17,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	size_t	src_len;
 
 	len = 0;
-	src_len = string_length(src);
+	src_len = ft_strlen(src);
 	if (size == 0)
 		return (src_len + len);
 	while (*dst && size > 0)

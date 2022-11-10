@@ -9,19 +9,7 @@
 /*   Updated: 2022/10/25 19:12:48 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
-
-static unsigned int	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
+#include "libft.h"
 
 static int	size_to_malloc(char const *s, unsigned int start, size_t len)
 {
@@ -47,6 +35,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (start >= ft_strlen(s))
 	{
 		str = (char *)malloc(sizeof(char) *(1));
+		if (!str)
+			return (0);
 		str[0] = '\0';
 		return (str);
 	}

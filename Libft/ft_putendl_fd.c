@@ -9,12 +9,7 @@
 /*   Updated: 2022/10/31 16:28:40 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
-
-static void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
+#include "libft.h"
 
 void	ft_putendl_fd(char *s, int fd)
 {

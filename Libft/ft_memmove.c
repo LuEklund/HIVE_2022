@@ -9,25 +9,7 @@
 /*   Updated: 2022/11/07 15:41:43 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
-
-static void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	char	*dest1;
-	char	*src1;
-	size_t	i;
-
-	dest1 = (char *)dest;
-	src1 = (char *)src;
-	i = 0;
-	while (i < n)
-	{
-		dest1[i] = src1[i];
-		i++;
-	}
-	dest = dest1;
-	return (dest);
-}
+#include "libft.h"
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {

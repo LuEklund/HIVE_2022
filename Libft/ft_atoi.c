@@ -9,7 +9,7 @@
 /*   Updated: 2022/10/27 18:52:12 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include<stdio.h>
+#include "libft.h"
 
 static int	overflow_return(int isnegative)
 {

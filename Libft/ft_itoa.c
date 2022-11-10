@@ -9,7 +9,7 @@
 /*   Updated: 2022/11/07 18:20:37 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
+#include "libft.h"
 
 static int	nblen(long int nb)
 {

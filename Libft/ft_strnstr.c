@@ -9,56 +9,7 @@
 /*   Updated: 2022/11/07 17:13:43 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
-
-static int	ft_strlen(char const *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-static char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return ((char *)s + i);
-		i++;
-	}
-	if (c == '\0')
-		return ((char *)s + i);
-	else
-		return (0);
-}
-
-static int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	int	value;
-	int	i;
-
-	i = 0;
-	value = 0;
-	while (n > 0)
-	{
-		value = value + ((unsigned char)s1[i] -(unsigned char)s2[i]);
-		if (s1[i] == '\0' || s2[i] == '\0')
-			return (value);
-		if (s1[i] != s2[i])
-			return (value);
-		n--;
-		i++;
-	}
-	return (value);
-}
+#include "libft.h"
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {

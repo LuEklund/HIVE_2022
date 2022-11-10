@@ -9,7 +9,7 @@
 /*   Updated: 2022/11/07 18:09:03 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
+#include "libft.h"
 
 static int	eliminator_real_size(char const *s, char c)
 {
@@ -38,7 +38,18 @@ static void	substr_filler(char **ptr_arr, int main_index, int i, const char *s)
 	}
 }
 
-static void	substr_mallocing(char const *s, char c, char **ptr_arr)
+static int	free_all(int main_index, char **ptr_arr)
+{
+	while (main_index > 0)
+	{
+		main_index--;
+		free(ptr_arr[main_index]);
+	}
+	free(ptr_arr);
+	return (0);
+}
+
+static int	substr_mallocing(char const *s, char c, char **ptr_arr)
 {
 	int			i;
 	int			main_index;
@@ -53,12 +64,18 @@ static void	substr_mallocing(char const *s, char c, char **ptr_arr)
 			i++;
 		}
 		ptr_arr[main_index] = (char *)malloc(sizeof(char) * (i + 1));
-		ptr_arr[main_index][i--] = '\0';
-		substr_filler(ptr_arr, main_index, i, s);
-		while (*s == c && *s != '\0')
-			s++;
-		main_index++;
+		if (!ptr_arr[main_index])
+			return (free_all(main_index, ptr_arr));
+		else
+		{
+			ptr_arr[main_index][i--] = '\0';
+			substr_filler(ptr_arr, main_index, i, s);
+			while (*s == c && *s != '\0')
+				s++;
+			main_index++;
+		}
 	}
+	return (1);
 }
 
 char	**ft_split(char const *s, char c)
@@ -76,6 +93,7 @@ char	**ft_split(char const *s, char c)
 	if (!ptr_arr)
 		return (0);
 	ptr_arr[i] = NULL;
-	substr_mallocing(s, c, ptr_arr);
+	if (!substr_mallocing(s, c, ptr_arr))
+		return (0);
 	return (ptr_arr);
 }
