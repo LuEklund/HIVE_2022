@@ -1,9 +1,91 @@
-#include "get_next_line.h"
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <fcntl.h>
 
-int	main(void)
+char *get_next_line(int fd);
+int main()
 {
-	int fd = open("text.txt", O_RDWR);
-	printf("%s\n",get_next_line(fd));
-	return (0);
+    int fd;
+    char *str;
+    fd = 0;
+    fd = open("files/42_with_nl_d", O_RDONLY);
+    str = get_next_line(fd);
+    printf("%s\n", str);
+    free(str);
+    str = get_next_line(fd);
+    printf("%s\n", str);
+    free(str);
+    str = get_next_line(fd);
+    printf("%s\n", str);
+    free(str);
+    str = get_next_line(fd);
+    printf("%s\n", str);
+    free(str);
+    str = get_next_line(fd);
+    printf("%s\n", str);
+    free(str);
+    str = get_next_line(fd);
+    printf("%s\n", str);
+    free(str);
+    str = get_next_line(fd);
+    printf("%s\n", str);
+    free(str);
+    str = get_next_line(fd);
+    printf("%s\n", str);
+    free(str);
+    str = get_next_line(fd);
+    printf("%s\n", str);
+    free(str);
+    close(fd);
+    return 0;
 }
+
+// int main()
+// {
+//     char *line;
+//     int fd = 0;
+
+
+//     fd = open("files/multiple_nlx5", O_RDONLY);
+//     if (fd < 0)
+//          return (0);
+//     while ((line = get_next_line(fd)) != NULL)
+//     {
+//         write(1, line, strlen(line));
+//         free(line);
+//     }
+//     return (0);
+// }
+
+// int alloc_number(void);
+
+// int main(int argc, char **argv)
+// {
+//     char *line;
+//     int fd = 0;
+
+//     if (argc > 1)
+//     {
+//         fd = open(argv[1], O_RDONLY);
+//         if (fd < 0)
+//             return (0);
+//     }
+//     while ((line = get_next_line(fd)) != NULL)
+//     {
+//         write(1, line, strlen(line));
+//         free(line);
+//     }
+//     if (fd > 0)
+//         close(fd);
+//     // if (alloc_number())
+//     // {
+//     //     if (write(2, "MEMORY LEAK DETECTED\n", strlen("MEMORY LEAK DETECTED\n")) < 0)
+//     //     {
+//     //         write(2, "FAILED TO WRITE\n", strlen("FAILED TO WRITE\n"));
+//     //     }
+//     //     return (1);
+//     // }
+//     return (0);
+// }

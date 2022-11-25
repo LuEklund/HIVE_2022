@@ -30,75 +30,74 @@ int	is_new_line(char *str, t_list *mem)
 	return (0);
 }
 
-char	*return_str(char *tmp, t_list *mem)
+char	*return_str(t_list *mem)
 {
 	char	*str;
 	int		length;
 
 	length = is_new_line(mem->save, mem);
+	if (!length)
+		length = ft_strlen(mem->save + mem->last);
 	str = (char *)malloc(sizeof(char) * (length + 1));
 	if (!str)
-	{
-		free_all(mem, tmp);
 		return (NULL);
-	}
-	ft_strlcpy(str, mem->save, length + 1);
+	ft_strlcpy(str, mem->save + mem->last, length + 1);
 	mem->last = mem->last + length;
 	return (str);
 }
 
 void	save_str(char *tmp, t_list *mem)
 {
-	char	*tmp_old;
-
 	if (mem->save)
-	{
-		tmp_old = ft_strdup(mem->save);
-		free(mem->save);
-		mem->save = ft_strjoin(tmp_old, tmp);
-		free(tmp_old);
-	}
+		mem->save = ft_strjoin(mem->save, tmp);
 	else
 		mem->save = ft_strdup (tmp);
 }
 
-char	*reading(int fd, t_list *mem)
+char	*reading(int fd, t_list *mem, char *tmp)
 {
-	char	*tmp;
-	int		have_read;
+	int		readen;
 
-	tmp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!tmp)
-	{
-		free_all(mem, tmp);
-		return (NULL);
-	}
 	while (1)
 	{
 		if (is_new_line(mem->save, mem))
 			break ;
-		have_read = read (fd, tmp, BUFFER_SIZE);
-		if (have_read == -1 || (have_read == 0 && mem->save == NULL))
+		readen = read (fd, tmp, BUFFER_SIZE);
+		if (readen == -1 || !readen)
 		{
-			free_all(mem, tmp);
-			return (NULL);
+			if (mem->save && ft_strlen(mem->save + mem->last))
+				break ;
+			else
+			{
+				if (mem->save)
+				{
+					free(mem->save);
+					mem->save = NULL;
+				}
+				return (NULL);
+			}
 		}
-		if (!have_read)
-		{
-			free_all(mem, tmp);
-			return (NULL);
-		}
-		tmp[have_read] = '\0';
+		tmp[readen] = '\0';
 		save_str(tmp, mem);
 	}
-	return (return_str(tmp, mem));
+	return (return_str(mem));
 }
 
 char	*get_next_line(int fd)
 {
-	static t_list	mem = { 0, NULL };
+	static t_list	mem = {0, NULL};
+	char			*tmp;
+	char			*return_str;
 
-	if (!fd)
+	if (fd < 0)
 		return (NULL);
-	return (reading(fd, &mem));
+	tmp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!tmp)
+		return (NULL);
+	return_str = reading(fd, &mem, tmp);
+	if (tmp != NULL)
+	{
+		free(tmp);
+	}
+	return (return_str);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-//modified to check if str = NULL return 0, so it works with strjoin
+
 int	ft_strlen(const char *str)
 {
 	int	count;
@@ -24,14 +24,14 @@ int	ft_strlen(const char *str)
 	}
 	return (count);
 }
-//modified to ignore if s1 == NULL
-char	*ft_strjoin(char const *s1, char const *s2)
+
+char	*ft_strjoin(char *s1, char const *s2)
 {
 	char	*str;
 	int		i;
 	int		y;
 
-	if (!s2)
+	if (!s1 || !s2)
 		return (0);
 	i = 0;
 	y = 0;
@@ -50,6 +50,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		y++;
 	}
 	str[i] = '\0';
+	free(s1);
 	return (str);
 }
 
@@ -89,18 +90,4 @@ char	*ft_strdup(const char *s)
 	}
 	str[i] = '\0';
 	return (str);
-}
-
-void	free_all(t_list *mem, char *tmp)
-{
-	if (mem->save != NULL)
-	{
-        free (mem->save);
-        mem->save = NULL;
-    }
-	if (tmp != NULL)
-	{
-		free(tmp);
-		tmp = NULL;
-	}
 }
