@@ -1,24 +1,14 @@
 NAME = so_long.a
 
-<<<<<<< HEAD
 SRC = so_long.c utils/gameEvent.c utils/map_checker.c utils/map_save.c utils/get_next_line.c utils/get_next_line_utils.c
 
 SRCO = so_long.o utils/gameEvent.o utils/map_checker.o utils/map_save.o utils/get_next_line.o utils/get_next_line_utils.o
-=======
-SRC = so_long.c utils/map.c utils/get_next_line.c utils/get_next_line_utils.c
-
-SRCO = so_long.o utils/map.o utils/get_next_line.o utils/get_next_line_utils.o
->>>>>>> 969cf1c06c8d637dc0c027ddb5417057a35125bd
 
 HEADER = includes/so_long.h
 
 all: $(NAME)
 
-<<<<<<< HEAD
 # -fsanitize=address -g
-=======
-
->>>>>>> 969cf1c06c8d637dc0c027ddb5417057a35125bd
 # -Lmlx
 %.o: %.c
 	$(CC) -Wall -Wextra -Werror -c $< -o $@

@@ -36,8 +36,6 @@ void	move_helper(t_vars *vars, int y, int x)
 	t_game	*game;
 
 	game = vars->game;
-	// if (left_right)
-	// {
 		if (game->map[y][x] == '1')
 			return ;
 		if (game->map[y][x] == 'C')
@@ -47,18 +45,7 @@ void	move_helper(t_vars *vars, int y, int x)
 		game->player->x = x;
 		game->player->y = y;
 		game->player_moves += 1;
-	// }
-	// else
-	// {
-	// 	if (game->map[game->player->y + moves][game->player->x] == '1')
-	// 		return ;
-	// 	if (game->map[game->player->y + moves][game->player->x] == 'C')
-	// 		game->collectables_amount--;
-	// 	game->map[game->player->y + moves][game->player->x] = 'P';
-	// 	game->map[game->player->y][game->player->x] = '0';
-	// 	game->player->y += moves;
-	// 	game->player_moves += 1;
-	// }
+
 	printf("player_moves[%d]\n", game->player_moves);
 	printf("collectables_amount[%d]\n", game->collectables_amount);
 }
