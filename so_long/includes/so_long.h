@@ -6,6 +6,11 @@
 # include <stdio.h>
 # include "mlx.h"
 
+<<<<<<< HEAD
+=======
+int	save_map();
+
+>>>>>>> 969cf1c06c8d637dc0c027ddb5417057a35125bd
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
@@ -14,6 +19,7 @@ typedef struct	s_data {
 	int		endian;
 }				t_data;
 
+<<<<<<< HEAD
 typedef struct	s_cords{
 	int	x;
 	int	y;
@@ -51,5 +57,15 @@ int	containables(char *row, t_game *map, int y_axi);
 int	save_map(t_game	*map);
 int show_map(int keycode, t_vars *vars);
 int player_move(int keycode, t_vars *vars);
+=======
+typedef struct	s_map_2d {
+	char	**map;
+}				t_map_2d;
+
+typedef struct	s_map {
+	char	*row;
+	struct s_map	*next;
+}				t_map;
+>>>>>>> 969cf1c06c8d637dc0c027ddb5417057a35125bd
 
 #endif

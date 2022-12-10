@@ -23,6 +23,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+<<<<<<< HEAD
 void	game_start(t_game *game)
 {
 	t_vars	mlx;
@@ -57,6 +58,13 @@ int	main(void)
 		return (0);
 	// printf("%s\n", *map->map);
 	game_start(game);
+=======
+
+
+int	main(void)
+{
+	save_map();
+>>>>>>> 969cf1c06c8d637dc0c027ddb5417057a35125bd
 	// void	*mlx;
 	// void	*mlx_win;
 	// t_data	img;
