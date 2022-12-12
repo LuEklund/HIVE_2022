@@ -82,7 +82,7 @@ int	save_map(t_game	*game)
 	len = ft_strlen(line);
 	while (line != NULL)
 	{
-		if (!check_line(len, line))
+		if (!check_line(len, line, fd))
 			return(0);
 		save_row(&row, line, len);
 		line = get_next_line(fd);

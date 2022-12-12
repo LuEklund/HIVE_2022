@@ -19,20 +19,21 @@ typedef struct	s_cords{
 	int	y;
 }				t_cords;
 
-// typedef struct	s_collect{
-// 	t_cords				*cord;
-// 	int					collectable;
-// 	struct s_collect	*next;
-// }				t_collect;
+typedef struct	s_collect{
+	t_cords				*cord;
+	struct s_collect	*next;
+}				t_collect;
 
 
 typedef struct	s_game {
 	char		**map;
 	int			player_moves;
 	int			collectables_amount;
-	// t_collect	*collect;
+	t_collect	*collect;
 	t_cords		*exit;
 	t_cords		*player;
+	int			winnable_exit;
+	int			winnable_collectable;
 }				t_game;
 
 typedef struct	s_vars {
@@ -46,11 +47,12 @@ typedef struct	s_rows{
 	struct s_rows	*next;
 }				t_rows;
 
-int	check_line(int len, char *line);
+int	check_line(int len, char *line, int fd);
 int	check_1(char *row);
 int	containables(char *row, t_game *map, int y_axi);
 int	save_map(t_game	*map);
 int show_map(int keycode, t_vars *vars);
 int player_move(int keycode, t_vars *vars);
+int	winnable_map(t_game *game);
 
 #endif

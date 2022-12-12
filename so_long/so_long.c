@@ -47,14 +47,20 @@ int	main(void)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return(0);
-	// game->collect = NULL;
+	game->collect = NULL;
 	game->exit = NULL;
 	game->player = NULL;
 	game->player_moves = 0;
 	game->collectables_amount = 0;
+	game->winnable_exit = 0;
+	game->winnable_collectable = 0;
 	// printf("\nC:\n");
 	if (!save_map(game))
 		return (0);
+	if(!winnable_map(game))
+		return (0);
+	// if (!winnable_map(game))
+	// 	return (0);
 	// printf("%s\n", *map->map);
 	game_start(game);
 	// void	*mlx;
