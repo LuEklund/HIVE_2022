@@ -10,25 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/so_long.h"
-
-int show_map(int keycode, t_vars *vars)
+//HERE IS THE MAP SHHOWER WHEN MOVE!!!!
+void	ft_putchar(char c)
 {
-	int	index;
+	write(1,&c,1);
+}
 
-	index = 0;
-	printf("%i\n", keycode);
-	if (keycode == 53)
+void	put_moves(long int n)
+{
+	if (n < 0)
 	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		exit (0);
+		ft_putchar('-');
+		n = n * -1;
 	}
-	while (vars->game->map[index] != NULL)
+	if (n >= 10)
 	{
-		printf("%s\n", vars->game->map[index]);
-		index++;
+		put_moves(n / 10);
+		ft_putchar(n % 10 + '0');
 	}
-	printf("\n");
-	return (0);
+	else
+	{
+		ft_putchar(n + '0');
+	}
 }
 
 void	move_helper(t_vars *vars, int y, int x)
@@ -42,7 +45,8 @@ void	move_helper(t_vars *vars, int y, int x)
 		game->collectables_amount--;
 	else if (game->map[y][x] == 'E' && !game->collectables_amount)
 	{
-		printf("GAME WON\n");
+		put_moves(game->player_moves + 1);
+		ft_putchar('\n');
 		exit (0);
 	}
 	if ((game->player->x == game->exit->x) && (game->player->y == game->exit->y))
@@ -53,8 +57,8 @@ void	move_helper(t_vars *vars, int y, int x)
 	game->player->x = x;
 	game->player->y = y;
 	game->player_moves += 1;
-	printf("player_moves[%d]\n", game->player_moves);
-	printf("collectables_amount[%d]\n", game->collectables_amount);
+	put_moves(game->player_moves);
+	ft_putchar('\n');
 }
 
 int player_move(int keycode, t_vars *vars)
@@ -72,6 +76,11 @@ int player_move(int keycode, t_vars *vars)
 		move_helper(vars, player_y, player_x - 1);
 	else if (keycode == 2)//RIGHT
 		move_helper(vars, player_y, player_x + 1);
-	show_map(keycode, vars);
+	else if (keycode == 53)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit (0);
+	}
+	// render_scene(vars);
 	return (0);
 }

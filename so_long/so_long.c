@@ -11,16 +11,24 @@
 /* ************************************************************************** */
 #include "includes/so_long.h"
 
-
-// char	*get_next_line(int fd);
-
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	rec_cross_close()
 {
-	char	*dst;
+	exit(0);
+}
+// mlx_mouse_hook(mlx.win, key_hook, &mlx);
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+int	save_images(t_vars *mlx)
+{
+	int		img_width;
+	int		img_height;
+
+	mlx->img->img[0] = mlx_new_image(mlx->mlx, 16, 16)
+	mlx->img->img[1] = mlx_xpm_file_to_image(mlx->mlx, "./texture/Grass.xpm", &img_width, &img_height);
+	mlx->img->img[2] = mlx_xpm_file_to_image(mlx->mlx, "./texture/Wall.xpm", &img_width, &img_height);
+	mlx->img->img[3] = mlx_xpm_file_to_image(mlx->mlx, "./texture/Collect.xpm", &img_width, &img_height);
+	mlx->img->img[4] = mlx_xpm_file_to_image(mlx->mlx, "./texture/Player.xpm", &img_width, &img_height);
+	mlx->img->img[5] = mlx_xpm_file_to_image(mlx->mlx, "./texture/Exit.xpm", &img_width, &img_height);
+	return (1);
 }
 
 void	game_start(t_game *game)
@@ -28,15 +36,16 @@ void	game_start(t_game *game)
 	t_vars	mlx;
 	t_data	img;
 
-	// printf("%s\n", map->map[0]);
 	mlx.game = game;
 	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, 200, 180, "Hello world!");
-	img.img = mlx_new_image(mlx.mlx, 200, 180);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
+	mlx.win = mlx_new_window(mlx.mlx, 336, 336, "so_long");
 	mlx_key_hook(mlx.win, player_move, &mlx);
-	mlx_put_image_to_window(mlx.mlx, mlx.win, img.img, 0, 0);
+	mlx.img = &img;
+	mlx_hook(mlx.win, 17, 0, rec_cross_close, &mlx);
+	save_images(&mlx);
+	if (!save_images)
+		exit(0);
+	mlx_loop_hook(mlx.mlx, &render_scene, &mlx);
 	mlx_loop(mlx.mlx);
 }
 
@@ -46,7 +55,7 @@ int	main(void)
 
 	game = malloc(sizeof(t_game));
 	if (!game)
-		return(0);
+		return (0);
 	game->collect = NULL;
 	game->exit = NULL;
 	game->player = NULL;
@@ -54,30 +63,13 @@ int	main(void)
 	game->collectables_amount = 0;
 	game->winnable_exit = 0;
 	game->winnable_collectable = 0;
-	// printf("\nC:\n");
+	game->max_map = malloc(sizeof(t_cords));
+	if (!game->max_map)
+		return (0);
 	if (!save_map(game))
 		return (0);
-	if(!winnable_map(game))
+	if (!winnable_map(game))
 		return (0);
-	// if (!winnable_map(game))
-	// 	return (0);
-	// printf("%s\n", *map->map);
 	game_start(game);
-	// void	*mlx;
-	// void	*mlx_win;
-	// t_data	img;
-
-
-
-	// mlx = mlx_init();
-	// mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	// img.img = mlx_new_image(mlx, 1920, 1080);
-	// img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-	// 							&img.endian);
-	// my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-	// mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	// mlx_loop(mlx);
-	
 	return (0);
 }
-

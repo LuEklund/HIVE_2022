@@ -14,8 +14,6 @@
 void	search_paths(int y, int x, t_game *game)
 {
 	char	**map;
-	int		index;
-
 	if (game->winnable_exit && (game->collectables_amount == game->winnable_collectable))
 		return ;
 	map = game->map;
@@ -26,13 +24,6 @@ void	search_paths(int y, int x, t_game *game)
 	else if (map[y][x] == 'E')
 		game->winnable_exit = 1;
 	map[y][x] = '2';
-	index = 0;
-	while (map[index] != NULL)
-	{
-		printf("%s\n", map[index]);
-		index++;
-	}
-	printf("\n");
 	search_paths(y - 1, x, game);//UP
 	search_paths(y + 1, x, game);//DOWN
 	search_paths(y, x + 1, game);//RIGHT
@@ -72,8 +63,7 @@ void	back_to_future(t_game *game)
 
 int	winnable_map(t_game *game)
 {
-	
-	search_paths(game->player->y,game->player->x,game);
+	search_paths(game->player->y, game->player->x, game);
 	if (!game->winnable_exit || (game->collectables_amount > game->winnable_collectable))
 		return (0);
 	back_to_future(game);

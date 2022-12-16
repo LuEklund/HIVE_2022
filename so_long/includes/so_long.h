@@ -7,7 +7,7 @@
 # include "mlx.h"
 
 typedef struct	s_data {
-	void	*img;
+	void	*img[6];
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
@@ -27,6 +27,7 @@ typedef struct	s_collect{
 
 typedef struct	s_game {
 	char		**map;
+	t_cords		*max_map;
 	int			player_moves;
 	int			collectables_amount;
 	t_collect	*collect;
@@ -39,6 +40,7 @@ typedef struct	s_game {
 typedef struct	s_vars {
 	void	*mlx;
 	void	*win;
+	t_data	*img;
 	t_game	*game;
 }				t_vars;
 
@@ -54,5 +56,6 @@ int	save_map(t_game	*map);
 int show_map(int keycode, t_vars *vars);
 int player_move(int keycode, t_vars *vars);
 int	winnable_map(t_game *game);
+int	render_scene(t_vars *mlx);
 
 #endif

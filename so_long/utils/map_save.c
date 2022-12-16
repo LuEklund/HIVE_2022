@@ -12,7 +12,7 @@
 #include "../includes/so_long.h"
 #include "../includes/get_next_line.h"
 
-int save_row(t_rows **sPtr, char *line, int len)
+int	save_row(t_rows **sPtr, char *line, int len)
 {
 	char	*malloc_line;
 	t_rows	*new_map;
@@ -76,15 +76,19 @@ int	save_map(t_game	*game)
 	int		len;
 	int		y_axi;
 	t_rows	*row = NULL;
+
 	y_axi = 0;
 	fd = open("maps/map.ber", O_RDONLY);
+	if (fd < 0)
+		return (0);
 	line = get_next_line(fd);
 	len = ft_strlen(line);
 	while (line != NULL)
 	{
 		if (!check_line(len, line, fd))
-			return(0);
-		save_row(&row, line, len);
+			return (0);
+		if (!save_row(&row, line, len))
+			return (0);
 		line = get_next_line(fd);
 		y_axi++;
 	}
@@ -92,6 +96,8 @@ int	save_map(t_game	*game)
 	game->map = make_map_2d(&row,y_axi,game);
 	if(!game->map)
 		return(0);
+	game->max_map->x = len - 1;
+	game->max_map->y = y_axi;
 	return(1);
 }
 

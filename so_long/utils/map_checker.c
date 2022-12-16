@@ -14,7 +14,6 @@
 
 int	ft_strlen(const char *str);
 
-
 t_cords *save_cords(int x, int y)
 {
 	t_cords		*cords;
@@ -22,26 +21,21 @@ t_cords *save_cords(int x, int y)
 	cords = malloc(sizeof(t_cords));
 	if (!cords)
 		return (NULL);
-	// printf("\nA\n");
 	cords->x = x;
 	cords->y = y;
-	// printf("\nA\n");
 	return (cords);
 }
 
 int save_collectable(t_collect **collect_ptr, int x, int y)
 {
 	t_collect	*new_collectable;
-	// t_cords		*cords;
 	t_collect	*curr_collectable;
 
 	new_collectable = malloc(sizeof(t_collect));
 	if (!new_collectable)
 		return (0);
-	// printf("\n%d:%d\n",x,y);
 	new_collectable->cord = save_cords(x, y);
 	new_collectable->next = NULL;
-
 	curr_collectable = *collect_ptr;
 	if (curr_collectable == NULL)
 		*collect_ptr = new_collectable;
@@ -53,11 +47,6 @@ int save_collectable(t_collect **collect_ptr, int x, int y)
 	}
 	return (1);
 }
-// if (row[index] == 'C')
-// 		{
-// 			save_collectable(&game->collect, index, y_axi);
-// 			game->collectables_amount += 1;
-// 		}
 
 int	containables(char *row, t_game *game,int y_axi)
 {
@@ -106,13 +95,9 @@ int	check_1(char *row)
 
 int	check_line(int len, char *line, int fd)
 {
-	
-	// printf("%s", line);
 	int	new_line_len;
 
 	new_line_len = ft_strlen(line);
-	// printf("%d - ", new_line_len);
-	// printf("%d - ", len);
 	if (len != new_line_len)
 	{
 		if (get_next_line(fd) == NULL && (new_line_len == len - 1))
