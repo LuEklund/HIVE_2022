@@ -65,7 +65,7 @@ int	winnable_map(t_game *game)
 {
 	search_paths(game->player->y, game->player->x, game);
 	if (!game->winnable_exit || (game->collectables_amount > game->winnable_collectable))
-		return (0);
+		error_message("Not beatable map");
 	back_to_future(game);
 	return (1);
 }

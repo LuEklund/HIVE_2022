@@ -69,35 +69,31 @@ char	**make_map_2d(t_rows **rows, int y,t_game *game)
 	return (game->map);
 }
 
-int	save_map(t_game	*game)
+int	save_map(t_game	*game, int fd)
 {
-	int		fd;
 	char	*line;
 	int		len;
 	int		y_axi;
 	t_rows	*row = NULL;
 
 	y_axi = 0;
-	fd = open("maps/map.ber", O_RDONLY);
-	if (fd < 0)
-		return (0);
 	line = get_next_line(fd);
 	len = ft_strlen(line);
 	while (line != NULL)
 	{
 		if (!check_line(len, line, fd))
-			return (0);
+			error_message("Invalid line");
 		if (!save_row(&row, line, len))
-			return (0);
+			error_message("Malloc fail");
 		line = get_next_line(fd);
 		y_axi++;
 	}
 	close(fd);
 	game->map = make_map_2d(&row,y_axi,game);
-	if(!game->map)
-		return(0);
+	if (!game->map)
+		error_message("Invalid Map");
 	game->max_map->x = len - 1;
 	game->max_map->y = y_axi;
-	return(1);
+	return (1);
 }
 

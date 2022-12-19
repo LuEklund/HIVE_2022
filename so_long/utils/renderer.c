@@ -11,16 +11,21 @@
 /* ************************************************************************** */
 #include "../includes/so_long.h"
 
+int	put_img(t_vars *mlx, void *img, int x, int y)
+{
+	mlx_put_image_to_window(mlx->mlx, mlx->win, img, x * 16, y * 16);
+	return (1);
+}
+
+
 int	render_scene(t_vars *mlx)
 {
-	int	x;
-	int y;
+	int		x;
+	int		y;
 	t_cords	*player;
 	char	type;
 	t_cords	where;
 
-	if(!mlx->win)
-		printf("[AAAA]\n");
 	player = mlx->game->player;
 	y = -10;
 	where.x = 0;
@@ -32,37 +37,28 @@ int	render_scene(t_vars *mlx)
 		while (x <= 10)
 		{
 			if (player->x + x < 0 || player->x + x > mlx->game->max_map->x - 1)
-			{
-				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img[0], (where.x) * 16, (where.y) * 16);
-			}
+				put_img(mlx, mlx->img->img[0], where.x, where.y);
 			else if (player->y + y < 0 || player->y + y > mlx->game->max_map->y - 1)
-			{
-				mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img[0], (where.x) * 16, (where.y) * 16);
-			}
+				put_img(mlx, mlx->img->img[0], where.x, where.y);
 			else
 			{
-				// printf("y[%i], x[%i]\n", player->y + y,player->x + x);
 				type = mlx->game->map[player->y + y][player->x + x];
 				if (type == '0')
-					mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img[1], (where.x) * 16, (where.y) * 16);
+					put_img(mlx, mlx->img->img[1], where.x, where.y);
 				else if (type == '1')
-					mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img[2], (where.x) * 16, (where.y) * 16);
+					put_img(mlx, mlx->img->img[2], where.x, where.y);
 				else if (type == 'C')
-					mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img[3], (where.x) * 16, (where.y) * 16);
+					put_img(mlx, mlx->img->img[3], where.x, where.y);
 				else if (type == 'P')
-					mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img[4], (where.x) * 16, (where.y) * 16);
+					put_img(mlx, mlx->img->img[4], where.x, where.y);
 				else if (type == 'E')
-					mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img[5], (where.x) * 16, (where.y) * 16);
-				// else
-				// 	put_stuff(mlx, 0);
+					put_img(mlx, mlx->img->img[5], where.x, where.y);
 			}
-			// printf("Wy[%i], Wx[%i]\n", where.y, where.x); 
-			
 			where.x += 1;
 			x++;
 		}
 		where.y += 1;
 		y++;
 	}
-	return(0);
+	return (0);
 }

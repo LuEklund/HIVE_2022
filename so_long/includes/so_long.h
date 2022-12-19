@@ -52,10 +52,11 @@ typedef struct	s_rows{
 int	check_line(int len, char *line, int fd);
 int	check_1(char *row);
 int	containables(char *row, t_game *map, int y_axi);
-int	save_map(t_game	*map);
+int	save_map(t_game	*map, int fd);
 int show_map(int keycode, t_vars *vars);
 int player_move(int keycode, t_vars *vars);
 int	winnable_map(t_game *game);
 int	render_scene(t_vars *mlx);
+void error_message(char *str);
 
 #endif
