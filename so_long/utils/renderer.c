@@ -17,16 +17,38 @@ int	put_img(t_vars *mlx, void *img, int x, int y)
 	return (1);
 }
 
+void	what_put(int x, int y, t_cords where, t_vars *mlx)
+{
+	t_cords	*player;
+	char	type;
+
+	player = mlx->game->player;
+	if (player->x + x < 0 || player->x + x > mlx->game->max_map->x - 1)
+		put_img(mlx, mlx->img->img[0], where.x, where.y);
+	else if (player->y + y < 0 || player->y + y > mlx->game->max_map->y - 1)
+		put_img(mlx, mlx->img->img[0], where.x, where.y);
+	else
+	{
+		type = mlx->game->map[player->y + y][player->x + x];
+		if (type == '0')
+			put_img(mlx, mlx->img->img[1], where.x, where.y);
+		else if (type == '1')
+			put_img(mlx, mlx->img->img[2], where.x, where.y);
+		else if (type == 'C')
+			put_img(mlx, mlx->img->img[3], where.x, where.y);
+		else if (type == 'P')
+			put_img(mlx, mlx->img->img[4], where.x, where.y);
+		else if (type == 'E')
+			put_img(mlx, mlx->img->img[5], where.x, where.y);
+	}	
+}
 
 int	render_scene(t_vars *mlx)
 {
 	int		x;
 	int		y;
-	t_cords	*player;
-	char	type;
 	t_cords	where;
 
-	player = mlx->game->player;
 	y = -10;
 	where.x = 0;
 	where.y = 0;
@@ -36,24 +58,7 @@ int	render_scene(t_vars *mlx)
 		x = -10;
 		while (x <= 10)
 		{
-			if (player->x + x < 0 || player->x + x > mlx->game->max_map->x - 1)
-				put_img(mlx, mlx->img->img[0], where.x, where.y);
-			else if (player->y + y < 0 || player->y + y > mlx->game->max_map->y - 1)
-				put_img(mlx, mlx->img->img[0], where.x, where.y);
-			else
-			{
-				type = mlx->game->map[player->y + y][player->x + x];
-				if (type == '0')
-					put_img(mlx, mlx->img->img[1], where.x, where.y);
-				else if (type == '1')
-					put_img(mlx, mlx->img->img[2], where.x, where.y);
-				else if (type == 'C')
-					put_img(mlx, mlx->img->img[3], where.x, where.y);
-				else if (type == 'P')
-					put_img(mlx, mlx->img->img[4], where.x, where.y);
-				else if (type == 'E')
-					put_img(mlx, mlx->img->img[5], where.x, where.y);
-			}
+			what_put(x, y, where, mlx);
 			where.x += 1;
 			x++;
 		}

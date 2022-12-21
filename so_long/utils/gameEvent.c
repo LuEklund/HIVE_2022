@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/so_long.h"
-//HERE IS THE MAP SHHOWER WHEN MOVE!!!!
+
 void	ft_putchar(char c)
 {
-	write(1,&c,1);
+	write(1, &c, 1);
 }
 
 void	put_moves(long int n)
@@ -37,50 +37,51 @@ void	put_moves(long int n)
 void	move_helper(t_vars *vars, int y, int x)
 {
 	t_game	*game;
+	t_cords	*player;
 
 	game = vars->game;
+	player = game->player;
 	if (game->map[y][x] == '1')
 		return ;
 	if (game->map[y][x] == 'C')
-		game->collectables_amount--;
-	else if (game->map[y][x] == 'E' && !game->collectables_amount)
+		game->coln--;
+	else if (game->map[y][x] == 'E' && !game->coln)
 	{
 		put_moves(game->player_moves + 1);
 		ft_putchar('\n');
 		exit (0);
 	}
-	if ((game->player->x == game->exit->x) && (game->player->y == game->exit->y))
-		game->map[game->player->y][game->player->x] = 'E';
+	if ((player->x == game->exit->x) && (player->y == game->exit->y))
+		game->map[player->y][player->x] = 'E';
 	else
-		game->map[game->player->y][game->player->x] = '0';
+		game->map[player->y][player->x] = '0';
 	game->map[y][x] = 'P';
-	game->player->x = x;
-	game->player->y = y;
+	player->x = x;
+	player->y = y;
 	game->player_moves += 1;
 	put_moves(game->player_moves);
 	ft_putchar('\n');
 }
 
-int player_move(int keycode, t_vars *vars)
+int	player_move(int keycode, t_vars *vars)
 {
 	int	player_x;
 	int	player_y;
 
 	player_x = vars->game->player->x;
 	player_y = vars->game->player->y;
-	if (keycode == 13)//UPP
+	if (keycode == 13)
 		move_helper(vars, player_y - 1, player_x);
-	else if (keycode == 1)//DOWN
+	else if (keycode == 1)
 		move_helper(vars, player_y + 1, player_x);
-	else if (keycode == 0)//LEFT
+	else if (keycode == 0)
 		move_helper(vars, player_y, player_x - 1);
-	else if (keycode == 2)//RIGHT
+	else if (keycode == 2)
 		move_helper(vars, player_y, player_x + 1);
 	else if (keycode == 53)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
 		exit (0);
 	}
-	// render_scene(vars);
 	return (0);
 }

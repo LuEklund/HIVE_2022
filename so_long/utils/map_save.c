@@ -40,13 +40,13 @@ int	save_row(t_rows **sPtr, char *line, int len)
 	return (1);
 }
 
-char	**make_map_2d(t_rows **rows, int y,t_game *game)
+char	**make_map_2d(t_rows **rows, int y, t_game *game)
 {
 	t_rows	*curr_map;
 	int		index;
 
 	index = 0;
-	game->map = malloc((sizeof(char*) * y) + 1);
+	game->map = malloc((sizeof(char *) * y) + 1);
 	if (!game->map)
 		return (0);
 	curr_map = *rows;
@@ -56,13 +56,13 @@ char	**make_map_2d(t_rows **rows, int y,t_game *game)
 		return (0);
 	while (curr_map->next != NULL)
 	{
-		if (!containables (curr_map->row, game, index))
+		if (!containables (curr_map->row, game, index, 0))
 			return (0);
 		game->map[index] = curr_map->row;
 		curr_map = curr_map->next;
 		index++;
 	}
-	if (!check_1 (curr_map->row) || !game->exit || !game->player || !game->collectables_amount)
+	if (!check_1 (curr_map->row) || !game->exit || !game->player || !game->coln)
 		return (0);
 	game->map[index] = curr_map->row;
 	game->map[index + 1] = NULL;
@@ -74,7 +74,7 @@ int	save_map(t_game	*game, int fd)
 	char	*line;
 	int		len;
 	int		y_axi;
-	t_rows	*row = NULL;
+	t_rows	*row;
 
 	y_axi = 0;
 	line = get_next_line(fd);
@@ -82,18 +82,17 @@ int	save_map(t_game	*game, int fd)
 	while (line != NULL)
 	{
 		if (!check_line(len, line, fd))
-			error_message("Invalid line");
+			error_print("Invalid line\n");
 		if (!save_row(&row, line, len))
-			error_message("Malloc fail");
+			error_print("Malloc fail\n");
 		line = get_next_line(fd);
 		y_axi++;
 	}
 	close(fd);
-	game->map = make_map_2d(&row,y_axi,game);
+	game->map = make_map_2d(&row, y_axi, game);
 	if (!game->map)
-		error_message("Invalid Map");
+		error_print("Invalid Map\n");
 	game->max_map->x = len - 1;
 	game->max_map->y = y_axi;
 	return (1);
 }
-

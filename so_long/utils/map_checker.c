@@ -12,9 +12,7 @@
 #include "../includes/so_long.h"
 #include "../includes/get_next_line.h"
 
-int	ft_strlen(const char *str);
-
-t_cords *save_cords(int x, int y)
+t_cords	*save_cords(int x, int y)
 {
 	t_cords		*cords;
 
@@ -26,7 +24,7 @@ t_cords *save_cords(int x, int y)
 	return (cords);
 }
 
-int save_collectable(t_collect **collect_ptr, int x, int y)
+int	save_collectable(t_collect **collect_ptr, int x, int y)
 {
 	t_collect	*new_collectable;
 	t_collect	*curr_collectable;
@@ -48,17 +46,14 @@ int save_collectable(t_collect **collect_ptr, int x, int y)
 	return (1);
 }
 
-int	containables(char *row, t_game *game,int y_axi)
+int	containables(char *row, t_game *game, int y_axi, int index)
 {
-	int	index;
-
-	index = 0;
 	while (row[index])
 	{
 		if (row[index] == 'C')
 		{
 			save_collectable(&game->collect, index, y_axi);
-			game->collectables_amount += 1;
+			game->coln += 1;
 		}
 		else if (row[index] == 'E')
 		{
