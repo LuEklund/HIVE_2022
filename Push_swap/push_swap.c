@@ -13,8 +13,6 @@
 #include "ft_printf/ft_printf.h"
 #include "includes/push_swap.h"
 
-
-
 int	main(int argc, char **argv)
 {
 	int			i;
@@ -23,7 +21,8 @@ int	main(int argc, char **argv)
 	stacks = malloc(sizeof(t_stacks));
 	stacks->a = malloc(sizeof(t_stack));
 	stacks->a = NULL;
-	// stacks->a->value = 0;
+	stacks->b = malloc(sizeof(t_stack));
+	stacks->b = NULL;
 	i = 1;
 	if (argc > 1)
 	{
@@ -34,9 +33,41 @@ int	main(int argc, char **argv)
 				ft_printf("VALID\n");
 			}
 			else
+			{
 				ft_printf("INVALID\n");
+				return (0);
+			}
 			i++;
 		}
+		// loop(&stacks->a, "Old");
+		// swap(&stacks->a);
+		// loop(&stacks->a, "New");
+		// loop(&stacks->a, "Old");
+		// reverse_rotate(&stacks->a);
+		// loop(&stacks->a, "Old");
+		// swap(&stacks->a);
+		// swap(&stacks->a);
+		// swap(&stacks->a);
+		// swap(&stacks->a);
+		// swap(&stacks->a);
+		// loop(&stacks->a, "New");
+		// rotate(&stacks->a);
+		// loop(&stacks->a, "New");
+		// loop(&stacks->a, "Old");
+		// swap(&stacks->a);
+		// loop(&stacks->a, "New");
+		loop(&stacks->a, "stack_A before");
+		loop(&stacks->b, "stack_B before");
+		push(&stacks->a, &stacks->b);
+		push(&stacks->a, &stacks->b);
+		push(&stacks->a, &stacks->b);
+		push(&stacks->a, &stacks->b);
+		loop(&stacks->a, "stack_A after");
+		loop(&stacks->b, "stack_B after");
+
+		// push(&stacks->a, &stacks->b);
+
+		
 	}
 	return (0);
 }

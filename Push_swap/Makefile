@@ -1,6 +1,6 @@
 NAME = push_swap
 
-SRC = utils/integer_checker.c push_swap.c
+SRC = utils/integer_checker.c utils/error.c utils/operators.c push_swap.c
 
 OBJ = $(SRC:%.c=%.o)
 

@@ -18,6 +18,11 @@ static int	blank_skipper(int i, const char *nptr)
 	return (i);
 }
 
+// static int	free_return(t_stack **a_stack)
+// {
+
+// }
+
 static int	add_list(t_stack **a_stack, int value)
 {
 	t_stack	*curr;
@@ -30,25 +35,25 @@ static int	add_list(t_stack **a_stack, int value)
 	new->next = NULL;
 	curr = *a_stack;
 	if (curr == NULL)
-	{
-		// printf("once\n");
 		*a_stack = new;
-	}
 	else
 	{
 		while (curr->next != NULL)
 		{
-			// printf("curr[%i], want to add[%i]\n", curr->value, value);
 			if (curr->value == value)
 			{
+				new = NULL;
 				free(new);
+				// free_stack(a_stack);
 				return (0);
 			}
 			curr = curr->next;
 		}
 		if (curr->value == value)
 		{
+			new = NULL;
 			free(new);
+			// free_stack(a_stack);
 			return (0);
 		}
 		curr->next = new;
@@ -76,13 +81,13 @@ int	integer_checker(const char *nptr, t_stack **a_stack)
 	while ((nptr[i] != '\0'))
 	{
 		if (nptr[i] < 47 || nptr[i] > 58)
-			return (0);
+			return (error_message("argument is not a integer"));
 		value = value * 10 + nptr[i] - '0';
 		i++;
 		if (value > 2147483647 || (value * isnegative < -2147483648))
-			return (0);
+			return (error_message("over INT_MAX or under INT_MIN, Not okay"));
 	}
 	if (!add_list(a_stack, (value * isnegative)))
-		return (0);
+		return (error_message("no duplicates please"));
 	return (1);
 }
