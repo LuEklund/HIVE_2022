@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/push_swap.h"
+#include "../ft_printf/ft_printf.h"
 
 static int	blank_skipper(int i, const char *nptr)
 {
@@ -18,10 +19,37 @@ static int	blank_skipper(int i, const char *nptr)
 	return (i);
 }
 
+
 // static int	free_return(t_stack **a_stack)
 // {
 
 // }
+static void	add_largest(t_stack **curr, int *value)
+{
+	if ((*curr)->larger == NULL || *value < *(*curr)->larger)
+		(*curr)->larger = value;
+	else
+		return ;
+	printf("[SUCCES]new large value for %i is %i\n", (*curr)->value, *value);
+}
+
+static void	add_largest_last(t_stack **a_stack, t_stack **new)
+{
+	t_stack	*curr;
+
+	curr = *a_stack;
+	if (curr == NULL)
+		return ;
+	else
+	{
+		while (curr->next != NULL)
+		{
+			if((*new)->value < curr->value)
+				add_largest(new, &curr->value);
+			curr = curr->next;
+		}
+	}
+}
 
 static int	add_list(t_stack **a_stack, int value)
 {
@@ -33,6 +61,7 @@ static int	add_list(t_stack **a_stack, int value)
 		return (0);
 	new->value = value;
 	new->next = NULL;
+	new->larger = NULL;
 	curr = *a_stack;
 	if (curr == NULL)
 		*a_stack = new;
@@ -44,19 +73,22 @@ static int	add_list(t_stack **a_stack, int value)
 			{
 				new = NULL;
 				free(new);
-				// free_stack(a_stack);
 				return (0);
 			}
+			if(value > curr->value)
+				add_largest(&curr, &new->value);
 			curr = curr->next;
 		}
 		if (curr->value == value)
 		{
 			new = NULL;
 			free(new);
-			// free_stack(a_stack);
 			return (0);
 		}
+		if(value > curr->value)
+			add_largest(&curr, &new->value);
 		curr->next = new;
+		add_largest_last(a_stack, &new);
 	}
 	return (1);
 }

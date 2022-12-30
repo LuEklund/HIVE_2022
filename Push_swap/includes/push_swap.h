@@ -19,6 +19,7 @@
 typedef struct s_stack
 {
 	int				value;
+	int				*larger;
 	struct s_stack	*next;
 }				t_stack;
 

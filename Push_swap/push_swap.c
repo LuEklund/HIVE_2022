@@ -13,6 +13,26 @@
 #include "ft_printf/ft_printf.h"
 #include "includes/push_swap.h"
 
+static void	print_order_list(t_stack **a_stack)
+{
+	t_stack	*curr;
+
+	curr = *a_stack;
+	if (curr == NULL)
+		return ;
+	else
+	{
+		while (curr->next != NULL)
+		{
+			if(curr->larger != NULL)
+				ft_printf("VALUE[%i] NEEDS VALUE[%i] after it.\n", curr->value, *curr->larger);
+			curr = curr->next;
+		}
+		if(curr->larger != NULL)
+				ft_printf("VALUE[%i] NEEDS VALUE[%i] after it.\n", curr->value, *curr->larger);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	int			i;
@@ -56,18 +76,18 @@ int	main(int argc, char **argv)
 		// loop(&stacks->a, "Old");
 		// swap(&stacks->a);
 		// loop(&stacks->a, "New");
-		loop(&stacks->a, "stack_A before");
-		loop(&stacks->b, "stack_B before");
-		push(&stacks->a, &stacks->b);
-		push(&stacks->a, &stacks->b);
-		push(&stacks->a, &stacks->b);
-		push(&stacks->a, &stacks->b);
-		loop(&stacks->a, "stack_A after");
-		loop(&stacks->b, "stack_B after");
+		// loop(&stacks->a, "stack_A before");
+		// loop(&stacks->b, "stack_B before");
+		// push(&stacks->a, &stacks->b);
+		// push(&stacks->a, &stacks->b);
+		// push(&stacks->a, &stacks->b);
+		// push(&stacks->a, &stacks->b);
+		// loop(&stacks->a, "stack_A after");
+		// loop(&stacks->b, "stack_B after");
 
 		// push(&stacks->a, &stacks->b);
 
-		
+		print_order_list(&stacks->a);
 	}
 	return (0);
 }
