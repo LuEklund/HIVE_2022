@@ -19,7 +19,7 @@
 typedef struct s_stack
 {
 	int				value;
-	int				*larger;
+	struct s_stack	*larger;
 	struct s_stack	*next;
 }				t_stack;
 
@@ -27,9 +27,12 @@ typedef struct s_stacks
 {
 	t_stack	*a;
 	t_stack	*b;
+	t_stack	*smallest;
+	t_stack	*mid;
+	int		a_size;
 }				t_stacks;
 
-int		integer_checker(const char *nptr, t_stack **a_stack);
+int		integer_checker(const char *nptr, t_stacks **stacks);
 void	swap(t_stack **stack);
 void	push(t_stack **stack_to_take_from, t_stack **stack_to_put_on);
 void	loop(t_stack **stack, char *s);

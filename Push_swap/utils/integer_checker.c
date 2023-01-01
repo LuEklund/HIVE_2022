@@ -24,34 +24,36 @@ static int	blank_skipper(int i, const char *nptr)
 // {
 
 // }
-static void	add_largest(t_stack **curr, int *value)
+static void	add_largest(t_stack **curr, t_stack **new)
 {
-	if ((*curr)->larger == NULL || *value < *(*curr)->larger)
-		(*curr)->larger = value;
+	if ((*curr)->larger == NULL || (*new)->value < (*curr)->larger->value)
+		(*curr)->larger = *new;
 	else
 		return ;
-	printf("[SUCCES]new large value for %i is %i\n", (*curr)->value, *value);
+	printf("[SUCCESS]new large value for %i is %i\n", (*curr)->value, (*new)->value);
 }
 
-static void	add_largest_last(t_stack **a_stack, t_stack **new)
-{
-	t_stack	*curr;
+// static void	add_largest_last(t_stack **a_stack, t_stack **new)
+// {
+// 	t_stack	*curr;
 
-	curr = *a_stack;
-	if (curr == NULL)
-		return ;
-	else
-	{
-		while (curr->next != NULL)
-		{
-			if((*new)->value < curr->value)
-				add_largest(new, &curr->value);
-			curr = curr->next;
-		}
-	}
-}
+// 	curr = *a_stack;
+// 	if (curr == NULL)
+// 		return ;
+// 	else
+// 	{
+// 		while (curr->next != NULL)
+// 		{
+// 			if((*new)->value < curr->value)
+// 				add_largest(new, &curr->value);
+// 			curr = curr->next;
+// 		}
+// 	}
+// }
 
-static int	add_list(t_stack **a_stack, int value)
+
+
+static int	add_list(t_stacks **stacks, int value)
 {
 	t_stack	*curr;
 	t_stack	*new;
@@ -62,9 +64,12 @@ static int	add_list(t_stack **a_stack, int value)
 	new->value = value;
 	new->next = NULL;
 	new->larger = NULL;
-	curr = *a_stack;
+	(*stacks)->a_size += 1;
+	if (!(*stacks)->smallest || (value < (*stacks)->smallest->value))
+		(*stacks)->smallest = new;
+	curr = (*stacks)->a;
 	if (curr == NULL)
-		*a_stack = new;
+		(*stacks)->a = new;
 	else
 	{
 		while (curr->next != NULL)
@@ -75,8 +80,10 @@ static int	add_list(t_stack **a_stack, int value)
 				free(new);
 				return (0);
 			}
-			if(value > curr->value)
-				add_largest(&curr, &new->value);
+			if (value > curr->value)
+				add_largest(&curr, &new);
+			if (value < curr->value)
+				add_largest(&new, &curr);
 			curr = curr->next;
 		}
 		if (curr->value == value)
@@ -85,15 +92,17 @@ static int	add_list(t_stack **a_stack, int value)
 			free(new);
 			return (0);
 		}
-		if(value > curr->value)
-			add_largest(&curr, &new->value);
+		if (value > curr->value)
+			add_largest(&curr, &new);
+		if (value < curr->value)
+			add_largest(&new, &curr);
 		curr->next = new;
-		add_largest_last(a_stack, &new);
+		// add_largest_last(a_stack, &new);
 	}
 	return (1);
 }
 
-int	integer_checker(const char *nptr, t_stack **a_stack)
+int	integer_checker(const char *nptr, t_stacks **stacks)
 {
 	int long	value;
 	int			isnegative;
@@ -119,7 +128,7 @@ int	integer_checker(const char *nptr, t_stack **a_stack)
 		if (value > 2147483647 || (value * isnegative < -2147483648))
 			return (error_message("over INT_MAX or under INT_MIN, Not okay"));
 	}
-	if (!add_list(a_stack, (value * isnegative)))
+	if (!add_list((stacks), (value * isnegative)))
 		return (error_message("no duplicates please"));
 	return (1);
 }

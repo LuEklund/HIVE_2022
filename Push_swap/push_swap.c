@@ -13,6 +13,21 @@
 #include "ft_printf/ft_printf.h"
 #include "includes/push_swap.h"
 
+void	find_mid(t_stacks **stacks)
+{
+	t_stack	*mid;
+	int		steps;
+
+	steps = (*stacks)->a_size / 2;
+	mid = (*stacks)->smallest;
+	while (steps > 0)
+	{
+		mid = mid->larger;
+		steps--;
+	}
+	ft_printf("Middle value is [%i].\n", mid->value);
+}
+
 static void	print_order_list(t_stack **a_stack)
 {
 	t_stack	*curr;
@@ -25,13 +40,16 @@ static void	print_order_list(t_stack **a_stack)
 		while (curr->next != NULL)
 		{
 			if(curr->larger != NULL)
-				ft_printf("VALUE[%i] NEEDS VALUE[%i] after it.\n", curr->value, *curr->larger);
+				ft_printf("VALUE[%i] NEEDS VALUE[%i] after it.\n", curr->value, curr->larger->value);
 			curr = curr->next;
 		}
 		if(curr->larger != NULL)
-				ft_printf("VALUE[%i] NEEDS VALUE[%i] after it.\n", curr->value, *curr->larger);
+				ft_printf("VALUE[%i] NEEDS VALUE[%i] after it.\n", curr->value, curr->larger->value);
+		
 	}
+
 }
+
 
 int	main(int argc, char **argv)
 {
@@ -39,16 +57,19 @@ int	main(int argc, char **argv)
 	t_stacks	*stacks;
 
 	stacks = malloc(sizeof(t_stacks));
-	stacks->a = malloc(sizeof(t_stack));
+	stacks->a_size = 0;
+	// stacks->smallest = malloc(sizeof(t_stack));
+	stacks->smallest = NULL;
+	// stacks->a = malloc(sizeof(t_stack));
 	stacks->a = NULL;
-	stacks->b = malloc(sizeof(t_stack));
+	// stacks->b = malloc(sizeof(t_stack));
 	stacks->b = NULL;
 	i = 1;
 	if (argc > 1)
 	{
 		while (argc > i)
 		{
-			if (integer_checker(argv[i], &stacks->a))
+			if (integer_checker(argv[i], &stacks))
 			{
 				ft_printf("VALID\n");
 			}
@@ -88,6 +109,8 @@ int	main(int argc, char **argv)
 		// push(&stacks->a, &stacks->b);
 
 		print_order_list(&stacks->a);
+		ft_printf("Smallest value[%i].\n And stack size is[%i]\n", stacks->smallest->value, stacks->a_size);
+		find_mid(&stacks);
 	}
 	return (0);
 }
