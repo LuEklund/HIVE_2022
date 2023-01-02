@@ -11,26 +11,8 @@
 /* ************************************************************************** */
 #include "../includes/push_swap.h"
 #include "../ft_printf/ft_printf.h"
+#include "../libft/libft.h"
 // ft_printf("New [%i]\n", (*stack)->next->value);
-
-void	loop(t_stack **stack, char *s)
-{
-	t_stack	*tmp;
-
-	tmp = *stack;
-	ft_printf("-----=[%s]=-----\n", s);
-	if (!tmp)
-	{
-		ft_printf("STACK IS NULL\n", s);
-		return ;
-	}
-	while (tmp->next != NULL)
-	{
-		ft_printf("%s [%i]\n", s, tmp->value);
-		tmp = tmp->next;
-	}
-	ft_printf("%s [%i]\n", s, tmp->value);
-}
 
 void	swap(t_stack **stack)
 {
@@ -106,4 +88,13 @@ void	reverse_rotate(t_stack **stack)
 	last = curr;
 	last->next = *stack;
 	*stack = last;
+}
+
+void	do_op(t_stack **stack_from, t_stack **stack_to, char *name)
+{
+	(void) name;
+	if (!ft_strncmp(name, "Push", 4))
+		push(stack_from, stack_to);
+	// if (!ft_strncmp(name, "Rotate", 6))
+	// 	rotate();
 }

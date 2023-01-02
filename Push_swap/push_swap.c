@@ -13,63 +13,42 @@
 #include "ft_printf/ft_printf.h"
 #include "includes/push_swap.h"
 
-void	find_mid(t_stacks **stacks)
+void	find_mid(t_info **info)
 {
 	t_stack	*mid;
 	int		steps;
 
-	steps = (*stacks)->a_size / 2;
-	mid = (*stacks)->smallest;
+	ft_printf("Smallest value[%i].\nAnd stack size is[%i]\n", (*info)->smallest->value, (*info)->a_size);
+	steps = (*info)->a_size / 2;
+	mid = (*info)->smallest;
 	while (steps > 0)
 	{
 		mid = mid->larger;
 		steps--;
 	}
-	ft_printf("Middle value is [%i].\n", mid->value);
+	(*info)->mid = mid;
+	ft_printf("Middle value is [%i][%i].\n", mid->value, (*info)->mid->value);
 }
-
-static void	print_order_list(t_stack **a_stack)
-{
-	t_stack	*curr;
-
-	curr = *a_stack;
-	if (curr == NULL)
-		return ;
-	else
-	{
-		while (curr->next != NULL)
-		{
-			if(curr->larger != NULL)
-				ft_printf("VALUE[%i] NEEDS VALUE[%i] after it.\n", curr->value, curr->larger->value);
-			curr = curr->next;
-		}
-		if(curr->larger != NULL)
-				ft_printf("VALUE[%i] NEEDS VALUE[%i] after it.\n", curr->value, curr->larger->value);
-		
-	}
-
-}
-
 
 int	main(int argc, char **argv)
 {
 	int			i;
-	t_stacks	*stacks;
+	t_info	*info;
 
-	stacks = malloc(sizeof(t_stacks));
-	stacks->a_size = 0;
-	// stacks->smallest = malloc(sizeof(t_stack));
-	stacks->smallest = NULL;
-	// stacks->a = malloc(sizeof(t_stack));
-	stacks->a = NULL;
-	// stacks->b = malloc(sizeof(t_stack));
-	stacks->b = NULL;
+	info = malloc(sizeof(t_info));
+	info->a_size = 0;
+	// info->smallest = malloc(sizeof(t_stack));
+	info->smallest = NULL;
+	// info->a = malloc(sizeof(t_stack));
+	info->a = NULL;
+	// info->b = malloc(sizeof(t_stack));
+	info->b = NULL;
 	i = 1;
 	if (argc > 1)
 	{
 		while (argc > i)
 		{
-			if (integer_checker(argv[i], &stacks))
+			if (integer_checker(argv[i], &info))
 			{
 				ft_printf("VALID\n");
 			}
@@ -80,37 +59,13 @@ int	main(int argc, char **argv)
 			}
 			i++;
 		}
-		// loop(&stacks->a, "Old");
-		// swap(&stacks->a);
-		// loop(&stacks->a, "New");
-		// loop(&stacks->a, "Old");
-		// reverse_rotate(&stacks->a);
-		// loop(&stacks->a, "Old");
-		// swap(&stacks->a);
-		// swap(&stacks->a);
-		// swap(&stacks->a);
-		// swap(&stacks->a);
-		// swap(&stacks->a);
-		// loop(&stacks->a, "New");
-		// rotate(&stacks->a);
-		// loop(&stacks->a, "New");
-		// loop(&stacks->a, "Old");
-		// swap(&stacks->a);
-		// loop(&stacks->a, "New");
-		// loop(&stacks->a, "stack_A before");
-		// loop(&stacks->b, "stack_B before");
-		// push(&stacks->a, &stacks->b);
-		// push(&stacks->a, &stacks->b);
-		// push(&stacks->a, &stacks->b);
-		// push(&stacks->a, &stacks->b);
-		// loop(&stacks->a, "stack_A after");
-		// loop(&stacks->b, "stack_B after");
 
-		// push(&stacks->a, &stacks->b);
-
-		print_order_list(&stacks->a);
-		ft_printf("Smallest value[%i].\n And stack size is[%i]\n", stacks->smallest->value, stacks->a_size);
-		find_mid(&stacks);
+		find_mid(&info);
+		// loop(&info->a, "stack[A]");
+		what_to_doer(&info);
+		loop(&info->a, "stack[A]");
+		loop(&info->b, "stack[B]");
+		
 	}
 	return (0);
 }

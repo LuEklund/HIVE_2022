@@ -1,11 +1,11 @@
 NAME = push_swap
 
-SRC = utils/integer_checker.c utils/error.c utils/operators.c push_swap.c
+SRC = tester.c utils/algo.c utils/integer_checker.c utils/error.c utils/operators.c push_swap.c
 
 OBJ = $(SRC:%.c=%.o)
 
 HEADER = includes/push_swap.h
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 .PHONY: all clean fclean re
 

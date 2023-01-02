@@ -53,7 +53,7 @@ static void	add_largest(t_stack **curr, t_stack **new)
 
 
 
-static int	add_list(t_stacks **stacks, int value)
+static int	add_list(t_info **info, int value)
 {
 	t_stack	*curr;
 	t_stack	*new;
@@ -64,12 +64,12 @@ static int	add_list(t_stacks **stacks, int value)
 	new->value = value;
 	new->next = NULL;
 	new->larger = NULL;
-	(*stacks)->a_size += 1;
-	if (!(*stacks)->smallest || (value < (*stacks)->smallest->value))
-		(*stacks)->smallest = new;
-	curr = (*stacks)->a;
+	(*info)->a_size += 1;
+	if (!(*info)->smallest || (value < (*info)->smallest->value))
+		(*info)->smallest = new;
+	curr = (*info)->a;
 	if (curr == NULL)
-		(*stacks)->a = new;
+		(*info)->a = new;
 	else
 	{
 		while (curr->next != NULL)
@@ -102,7 +102,7 @@ static int	add_list(t_stacks **stacks, int value)
 	return (1);
 }
 
-int	integer_checker(const char *nptr, t_stacks **stacks)
+int	integer_checker(const char *nptr, t_info **info)
 {
 	int long	value;
 	int			isnegative;
@@ -128,7 +128,7 @@ int	integer_checker(const char *nptr, t_stacks **stacks)
 		if (value > 2147483647 || (value * isnegative < -2147483648))
 			return (error_message("over INT_MAX or under INT_MIN, Not okay"));
 	}
-	if (!add_list((stacks), (value * isnegative)))
+	if (!add_list((info), (value * isnegative)))
 		return (error_message("no duplicates please"));
 	return (1);
 }
