@@ -37,6 +37,8 @@ int	main(int argc, char **argv)
 
 	info = malloc(sizeof(t_info));
 	info->a_size = 0;
+	info->b_size = 0;
+	info->moves = 0;
 	// info->smallest = malloc(sizeof(t_stack));
 	info->smallest = NULL;
 	// info->a = malloc(sizeof(t_stack));
@@ -65,7 +67,7 @@ int	main(int argc, char **argv)
 		what_to_doer(&info);
 		loop(&info->a, "stack[A]");
 		loop(&info->b, "stack[B]");
-		
+		ft_printf("MOVES\n--===[%i]===--", info->moves);
 	}
 	return (0);
 }

@@ -71,8 +71,11 @@ void	reverse_rotate(t_stack **stack)
 {
 	t_stack	*last;
 	t_stack	*curr;
+	t_stack	*first;
 
 	curr = *stack;
+	first = *stack;
+	last = NULL;
 	if (!curr || !curr->next)
 	{
 		ft_printf("error at reverse_rotate\n");
@@ -80,14 +83,13 @@ void	reverse_rotate(t_stack **stack)
 	}
 	while (curr->next != NULL)
 	{
-		if (curr->next->next == NULL)
+		if (!last && curr->next->next == NULL)
 			last = curr;
 		curr = curr->next;
 	}
 	last->next = NULL;
-	last = curr;
-	last->next = *stack;
-	*stack = last;
+	curr->next = first;
+	*stack = curr;
 }
 
 void	do_op(t_stack **stack_from, t_stack **stack_to, char *name)

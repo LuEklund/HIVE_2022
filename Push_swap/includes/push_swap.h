@@ -31,15 +31,16 @@ typedef struct s_info
 	t_stack	*mid;
 	int		a_size;
 	int		b_size;
+	int		moves;
 }				t_info;
 
 int		integer_checker(const char *nptr, t_info **info);
 void	do_op(t_stack **stack_from, t_stack **stack_to, char *name);
-// void	swap(t_stack **stack);
-// void	push(t_stack **stack_to_take_from, t_stack **stack_to_put_on);
+void	swap(t_stack **stack);
+void	push(t_stack **stack_to_take_from, t_stack **stack_to_put_on);
 // void	loop(t_stack **stack, char *s);
 void	rotate(t_stack **stack);
-// void	reverse_rotate(t_stack **stack);
+void	reverse_rotate(t_stack **stack);
 int		error_message(char *s);
 void	what_to_doer(t_info **info);
 // void	free_stack(t_stack **stack);
