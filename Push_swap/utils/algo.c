@@ -124,58 +124,129 @@ void	ss(t_info **info)
 	swap(&(*info)->b);
 }
 
+void	find_next_samllest(t_info **info)
+{
+	if (shift_up_a(&(*info)->a, (*info)->mid->value, (*info)->a_size))
+	{
+		while ((*info)->a->value >= (*info)->mid->value)
+		{
+			if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B'))
+				ss(info);
+			(*info)->moves++;
+			ft_printf("ra\n");
+			rotate(&(*info)->a);
+		}
+	}
+	else
+	{
+		while ((*info)->a->value >= (*info)->mid->value)
+		{
+			if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B'))
+				ss(info);
+			(*info)->moves++;
+			ft_printf("rra\n");
+			reverse_rotate(&(*info)->a);
+		}
+	}
+}
+
+int fix_a(t_info **info)
+{
+	//find first accourens_of not alligned number, (should not be smallest and largest switch)
+	t_stack	*stack_a;
+	int		first;
+	int		last;
+	int		i;
+
+	last = 0;
+	first = 0;
+	i = 0;
+	stack_a = (*info)->a;
+	while (stack_a->next)
+	{
+		if (stack_a->next->larger != NULL && want_swap(&stack_a, 'A'))
+		{
+			if (!first)
+				first = last;
+			last = i;
+		}
+		i++;
+		stack_a = stack_a->next;
+	}
+	if (!first)
+		return (0);
+	if (first <= (*info)->a_size - last)
+		return (1);
+	else
+		return (0);
+}
+
 void	what_to_doer(t_info **info)
 {
-	// int	half_stack_size;
+	int	a_stack_status;
+	int	b_stack_status;
 
-	// half_stack_size = (*info)->a_size / 2;
+	a_stack_status = in_order(&(*info)->a, 'A');
+	b_stack_status = in_order(&(*info)->b,'B');
+	printf("A_status[%i], B_status[%i]\n",a_stack_status, b_stack_status);
 	ft_printf("curr[%i], middle[%i]\n", (*info)->a->value, (*info)->mid->value);
-	while (!in_order(&(*info)->a, 'A') || !in_order(&(*info)->b,'B'))
+	while (!a_stack_status)
 	{
 		printf("\n\n============================\n");
-		// if (!(*info)->a_size / 2 || (*info)->a_size-1 <= (*info)->b_size)
-		// 	break ;
-		if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B'))
+		if ((*info)->a_size-1 > (*info)->b_size)
 		{
+			if ((*info)->a->value < (*info)->mid->value)
+			{
+				(*info)->a_size--;
+				(*info)->b_size++;
+				(*info)->moves++;
+				ft_printf("pb\n");
+				do_op(&(*info)->a, &(*info)->b, "Push");
+			}
+			else
+				find_next_samllest(&(*info));
+		}
+		else if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B'))
 			ss(info);
-		}
-		else if ((*info)->a->value < (*info)->mid->value)
-		{
-			(*info)->a_size--;
-			(*info)->b_size++;
-			(*info)->moves++;
-			ft_printf("pb\n");
-			do_op(&(*info)->a, &(*info)->b, "Push");
-		}
 		else
 		{
-			// ft_printf("curr value[%i]\n", (*info)->a->value);
-			if (shift_up_a(&(*info)->a, (*info)->mid->value, (*info)->a_size))
+			if (fix_a(info))
 			{
-				while ((*info)->a->value >= (*info)->mid->value)
+				while ((*info)->a->value < (*info)->a->next->value || (*info)->a->larger == NULL)
 				{
-					if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B'))
-						ss(info);
 					(*info)->moves++;
 					ft_printf("ra\n");
 					rotate(&(*info)->a);
+					a_stack_status = in_order(&(*info)->a, 'A');
+					if (a_stack_status)
+						break ;
 				}
 			}
 			else
 			{
-				while ((*info)->a->value >= (*info)->mid->value)
+				while ((*info)->a->value < (*info)->a->next->value || (*info)->a->larger == NULL)
 				{
-					if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B'))
-						ss(info);
 					(*info)->moves++;
 					ft_printf("rra\n");
 					reverse_rotate(&(*info)->a);
+					a_stack_status = in_order(&(*info)->a, 'A');
+					if (a_stack_status)
+						break ;
 				}
 			}
+			if (want_swap(&(*info)->b, 'B'))
+				ss(info);
+			else if(want_swap(&(*info)->a, 'A'))
+			{
+				(*info)->moves++;
+				ft_printf("sa\n");
+				swap(&(*info)->a);
+			}
 		}
-		
 		loop(&(*info)->a,"A");
 		loop(&(*info)->b,"B");
+		a_stack_status = in_order(&(*info)->a, 'A');
+		b_stack_status = in_order(&(*info)->b,'B');
 	}
-	push_a_done(&(*info));
+	// push_a_done(&(*info));
 }
