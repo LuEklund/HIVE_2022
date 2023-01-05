@@ -29,6 +29,7 @@ typedef struct s_info
 	t_stack	*b;
 	t_stack	*smallest;
 	t_stack	*mid;
+	int		orig_size;
 	int		a_size;
 	int		b_size;
 	int		moves;
@@ -52,3 +53,5 @@ void	find_mid(t_info **info);
 void	loop(t_stack **stack, char *s);
 #endif
 
+// ft_printf("Smallest value[%i].\nAnd stack size is[%i]\n", (*info)->smallest->value, (*info)->a_size);
+// ft_printf("mid steps[%i] Middle value is [%i] orig_size[%i].\n", steps, (*info)->mid->value, (*info)->orig_size);

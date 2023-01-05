@@ -12,6 +12,11 @@
 #include "../includes/push_swap.h"
 #include "../ft_printf/ft_printf.h"
 
+int		semi_order(t_stack **stack, char c)
+{
+
+}
+
 int	in_order(t_stack **stack, char c)
 {
 	t_stack	*curr;
@@ -81,6 +86,13 @@ int	shift_up_a(t_stack **stack_a, int mid, int size)
 		return (0);
 }
 
+// int	if_connected()
+// {
+// 	//dont wanna swap if
+// 	//the (last or previuos) is linked with first one
+// 	//OR the second one adn third one are linked
+// }
+
 int	want_swap(t_stack **stack, char c)
 {
 	if (!(*stack) || !(*stack)->next)
@@ -108,13 +120,20 @@ void	push_a_done(t_info **info)
 	while (curr->next)
 	{
 		(*info)->moves++;
-		ft_printf("pb\n");
+		ft_printf("pa\n");
+		curr = curr->next;
 		push(&(*info)->b, &(*info)->a);
+		
 	}
 	(*info)->moves++;
-	ft_printf("pb\n");
+	ft_printf("pa\n");
 	push(&(*info)->b, &(*info)->a);
 }
+
+// void	if_connected(t_info **info)
+// {
+	
+// }
 
 void	ss(t_info **info)
 {
@@ -130,7 +149,7 @@ void	find_next_samllest(t_info **info)
 	{
 		while ((*info)->a->value >= (*info)->mid->value)
 		{
-			if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B'))
+			if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B') && (*info)->a->larger != NULL)
 				ss(info);
 			(*info)->moves++;
 			ft_printf("ra\n");
@@ -141,7 +160,7 @@ void	find_next_samllest(t_info **info)
 	{
 		while ((*info)->a->value >= (*info)->mid->value)
 		{
-			if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B'))
+			if (want_swap(&(*info)->a, 'A') && want_swap(&(*info)->b, 'B') && (*info)->a->larger != NULL)
 				ss(info);
 			(*info)->moves++;
 			ft_printf("rra\n");
@@ -181,6 +200,65 @@ int fix_a(t_info **info)
 		return (0);
 }
 
+int	find_largest_in_b(t_info **info)
+{
+	t_stack	*stack_b;
+	t_stack	*stack_a;
+	int		i;
+
+	// ft_printf("B_SIZE[%i]\n", (*info)->b_size);
+	i = 0;
+	stack_b = (*info)->b;
+	stack_a = (*info)->a;
+	while (stack_b->next)
+	{
+		if (stack_a == stack_b->larger)
+			break ;
+		i++;
+		stack_b = stack_b->next;
+	}
+	if (i <= (*info)->b_size/2)
+		return (1);
+	else
+		return (0);
+}
+
+void solve_b_stack(t_info **info, int status)
+{
+	if ((*info)->b_size < 2)
+		return ;
+	// ft_printf("B_SIZE[%i]\n", status);
+	while (!status)
+	{
+		(*info)->moves++;
+		if ((*info)->b->larger == (*info)->a)
+		{
+			(*info)->a_size++;
+			(*info)->b_size--;
+			ft_printf("pa\n");
+			push(&(*info)->b, &(*info)->a);
+		}
+		else if ((*info)->b->value > (*info)->b->next->value)
+		{
+			ft_printf("sb\n");
+			swap(&(*info)->b);
+		}
+		else if (find_largest_in_b(&(*info)))
+		{
+			ft_printf("rb\n");
+			rotate(&(*info)->b);
+		}
+		else
+		{
+			ft_printf("rrb\n");
+			reverse_rotate(&(*info)->b);
+		}
+		status = in_order(&(*info)->b, 'B');
+		if (status)
+			break;
+	}
+}
+
 void	what_to_doer(t_info **info)
 {
 	int	a_stack_status;
@@ -188,20 +266,24 @@ void	what_to_doer(t_info **info)
 
 	a_stack_status = in_order(&(*info)->a, 'A');
 	b_stack_status = in_order(&(*info)->b,'B');
-	printf("A_status[%i], B_status[%i]\n",a_stack_status, b_stack_status);
-	ft_printf("curr[%i], middle[%i]\n", (*info)->a->value, (*info)->mid->value);
+	// printf("A_status[%i], B_status[%i]\n",a_stack_status, b_stack_status);
+	// ft_printf("curr[%i], middle[%i]\n", (*info)->a->value, (*info)->mid->value);
 	while (!a_stack_status)
 	{
-		printf("\n\n============================\n");
-		if ((*info)->a_size-1 > (*info)->b_size)
+		// ft_printf("orig_size[%i]. b_size[%i], mid value[%i]\n", (*info)->orig_size, (*info)->b_size, (*info)->mid->value);
+		// printf("\n\n============================\n");
+		if ((*info)->b_size < (*info)->orig_size / 2)
 		{
+			// ft_printf("VALID1\n");
 			if ((*info)->a->value < (*info)->mid->value)
 			{
+				// ft_printf("VALID2\n");
 				(*info)->a_size--;
 				(*info)->b_size++;
 				(*info)->moves++;
 				ft_printf("pb\n");
-				do_op(&(*info)->a, &(*info)->b, "Push");
+				// do_op(&(*info)->a, &(*info)->b, "Push");
+				push(&(*info)->a, &(*info)->b);
 			}
 			else
 				find_next_samllest(&(*info));
@@ -215,8 +297,18 @@ void	what_to_doer(t_info **info)
 				while ((*info)->a->value < (*info)->a->next->value || (*info)->a->larger == NULL)
 				{
 					(*info)->moves++;
-					ft_printf("ra\n");
-					rotate(&(*info)->a);
+					if (!b_stack_status && !want_swap(&(*info)->b, 'B'))
+					{
+						ft_printf("rr\n");
+						rotate(&(*info)->a);
+						rotate(&(*info)->b);
+					}
+					else
+					{
+						ft_printf("ra\n");
+						rotate(&(*info)->a);
+					}
+					b_stack_status = in_order(&(*info)->b, 'B');
 					a_stack_status = in_order(&(*info)->a, 'A');
 					if (a_stack_status)
 						break ;
@@ -227,8 +319,18 @@ void	what_to_doer(t_info **info)
 				while ((*info)->a->value < (*info)->a->next->value || (*info)->a->larger == NULL)
 				{
 					(*info)->moves++;
-					ft_printf("rra\n");
-					reverse_rotate(&(*info)->a);
+					if (!b_stack_status && !want_swap(&(*info)->b, 'B') )
+					{
+						ft_printf("rrr\n");
+						reverse_rotate(&(*info)->a);
+						reverse_rotate(&(*info)->b);
+					}
+					else
+					{
+						ft_printf("rra\n");
+						reverse_rotate(&(*info)->a);
+					}
+					b_stack_status = in_order(&(*info)->b, 'B');
 					a_stack_status = in_order(&(*info)->a, 'A');
 					if (a_stack_status)
 						break ;
@@ -243,10 +345,13 @@ void	what_to_doer(t_info **info)
 				swap(&(*info)->a);
 			}
 		}
-		loop(&(*info)->a,"A");
-		loop(&(*info)->b,"B");
+		// loop(&(*info)->a,"A");
+		// loop(&(*info)->b,"B");
 		a_stack_status = in_order(&(*info)->a, 'A');
 		b_stack_status = in_order(&(*info)->b,'B');
 	}
-	// push_a_done(&(*info));
+	// ft_printf("B_SIZE[%i], B_ORDER[%i]\n", (*info)->b_size, b_stack_status);
+	if(!b_stack_status)
+		solve_b_stack(&(*info), b_stack_status);
+	push_a_done(&(*info));
 }

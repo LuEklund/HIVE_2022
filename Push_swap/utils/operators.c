@@ -92,11 +92,11 @@ void	reverse_rotate(t_stack **stack)
 	*stack = curr;
 }
 
-void	do_op(t_stack **stack_from, t_stack **stack_to, char *name)
-{
-	(void) name;
-	if (!ft_strncmp(name, "Push", 4))
-		push(stack_from, stack_to);
-	// if (!ft_strncmp(name, "Rotate", 6))
-	// 	rotate();
-}
+// void	do_op(t_stack **stack_from, t_stack **stack_to, char *name)
+// {
+// 	(void) name;
+// 	if (!ft_strncmp(name, "Push", 4))
+// 		push(stack_from, stack_to);
+// 	// if (!ft_strncmp(name, "Rotate", 6))
+// 	// 	rotate();
+// }

@@ -18,8 +18,9 @@ void	find_mid(t_info **info)
 	t_stack	*mid;
 	int		steps;
 
-	ft_printf("Smallest value[%i].\nAnd stack size is[%i]\n", (*info)->smallest->value, (*info)->a_size);
+	// ft_printf("Smallest value[%i].\nAnd stack size is[%i]\n", (*info)->smallest->value, (*info)->a_size);
 	steps = (*info)->a_size / 2;
+	(*info)->orig_size = (*info)->a_size;
 	mid = (*info)->smallest;
 	while (steps > 0)
 	{
@@ -27,7 +28,7 @@ void	find_mid(t_info **info)
 		steps--;
 	}
 	(*info)->mid = mid;
-	ft_printf("Middle value is [%i][%i].\n", mid->value, (*info)->mid->value);
+	// ft_printf("mid steps[%i] Middle value is [%i] orig_size[%i].\n", steps, (*info)->mid->value, (*info)->orig_size);
 }
 
 int	main(int argc, char **argv)
@@ -52,11 +53,11 @@ int	main(int argc, char **argv)
 		{
 			if (integer_checker(argv[i], &info))
 			{
-				ft_printf("VALID\n");
+				// ft_printf("VALID\n");
 			}
 			else
 			{
-				ft_printf("INVALID\n");
+				// ft_printf("INVALID\n");
 				return (0);
 			}
 			i++;
@@ -65,9 +66,9 @@ int	main(int argc, char **argv)
 		find_mid(&info);
 		// loop(&info->a, "stack[A]");
 		what_to_doer(&info);
-		loop(&info->a, "stack[A]");
-		loop(&info->b, "stack[B]");
-		ft_printf("MOVES\n--===[%i]===--", info->moves);
+		// loop(&info->a, "stack[A]");
+		// loop(&info->b, "stack[B]");
+		// ft_printf("MOVES\n--===[%i]===--", info->moves);
 	}
 	return (0);
 }

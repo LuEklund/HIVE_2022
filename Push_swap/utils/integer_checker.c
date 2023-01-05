@@ -30,7 +30,7 @@ static void	add_largest(t_stack **curr, t_stack **new)
 		(*curr)->larger = *new;
 	else
 		return ;
-	printf("[SUCCESS]new large value for %i is %i\n", (*curr)->value, (*new)->value);
+	// printf("[SUCCESS]new large value for %i is %i\n", (*curr)->value, (*new)->value);
 }
 
 // static void	add_largest_last(t_stack **a_stack, t_stack **new)
