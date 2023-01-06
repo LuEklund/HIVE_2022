@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   freer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leklund <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/19 17:25:59 by leklund           #+#    #+#             */
-/*   Updated: 2022/12/19 17:26:01 by leklund          ###   ########.fr       */
+/*   Created: 2022/12/29 11:45:24 by leklund           #+#    #+#             */
+/*   Updated: 2022/12/29 11:45:26 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../includes/so_long.h"
-#include "../libft/libft.h"
+#include "../includes/push_swap.h"
 
-int	rec_cross_close(void)
+void	free_stack(t_stack **stack)
 {
-	exit(0);
-}
+	t_stack	*curr;
 
-void	error_print(char *str)
-{
-	ft_putstr_fd("Error\n", 1);
-	ft_putstr_fd(str, 1);
-	exit(0);
-}
-
-void	error_message(char *str)
-{
-	ft_putstr_fd("Error\n", 1);
-	perror(str);
-	exit(0);
+	curr = *stack;
+	if (curr->next)
+		free_stack(&curr->next);
+	printf("freed [%i]", curr->value);
+	stack = NULL;
+	free(stack);
 }
