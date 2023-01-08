@@ -13,10 +13,13 @@
 #include "ft_printf/ft_printf.h"
 #include "includes/push_swap.h"
 
-void info(t_info **info)
+void st_info(t_info **info)
 {
-	ft_printf("a_size[%i]n b_size[%i]\n", (*info)->a_size, (*info)->b_size);
-	ft_printf("middle value is[%i] and middle mid value is[%i]\n", (*info)->mid->value, (*info)->mid_mid->value);
+	ft_printf("------=====================[NEW-INFO]=====================------\n");
+	ft_printf("a_size[%i] and b_size[%i]\n", (*info)->a_size, (*info)->b_size);
+	ft_printf("middle value is[%i] and mid_mid value is[%i]\n", (*info)->mid->value, (*info)->mid_mid->value);
+	ft_printf("last value in stack a [%i]\n", (*info)->a_last->value);
+	ft_printf("------=====================[NEW-INFO]=====================------\n");
 }
 
 // static void	print_order_list(t_stack **a_stack)
@@ -40,10 +43,15 @@ void info(t_info **info)
 // 	}
 // }
 
-void	loop(t_stack **stack, char *s)
+void	loop(t_info **info, char c, char *s)
 {
 	t_stack	*tmp;
+	t_stack	**stack;
 
+	if (c == 'a')
+		stack = &(*info)->a;
+	else
+		stack = &(*info)->b;
 	tmp = *stack;
 	ft_printf("-----=[%s]=-----\n", s);
 	if (!tmp)
@@ -53,8 +61,16 @@ void	loop(t_stack **stack, char *s)
 	}
 	while (tmp->next != NULL)
 	{
-		ft_printf("%s [%i]\n", s, tmp->value);
+		ft_printf("%s [%i]", s, tmp->value);
+		if (tmp->value < (*info)->mid_mid->value)
+			ft_printf("[x]\n");
+		else
+			ft_printf("[ ]\n");
 		tmp = tmp->next;
 	}
-	ft_printf("%s [%i]\n", s, tmp->value);
+	ft_printf("%s [%i]", s, tmp->value);
+	if (tmp->value < (*info)->mid_mid->value)
+		ft_printf("[x]\n");
+	else
+		ft_printf("[ ]\n");
 }

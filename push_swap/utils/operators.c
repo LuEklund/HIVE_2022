@@ -14,12 +14,18 @@
 #include "../libft/libft.h"
 // ft_printf("New [%i]\n", (*stack)->next->value);
 
-void	swap(t_stack **stack)
+void	swap(t_info **info, char c)
 {
+	(*info)->moves++;
+	t_stack	**stack;
 	t_stack	*first;
 	t_stack	*seccond;
 	t_stack	*third;
 
+	if (c == 'a')
+		stack = &(*info)->a;
+	else
+		stack = &(*info)->b;
 	if (!(*stack) || !(*stack)->next)
 	{
 		ft_printf("error at swap\n");
@@ -31,10 +37,15 @@ void	swap(t_stack **stack)
 	*stack = seccond;
 	seccond->next = first;
 	first->next = third;
+	if (!third && c == 'a')
+		(*info)->a_last = first;
+	else if (!third && c == 'a')
+		(*info)->b_last = first;
 }
 
 void	push(t_info **info, char c)
 {
+	(*info)->moves++;
 	t_stack	*first_take;
 	t_stack	**stack_to_take_from;
 	t_stack	**stack_to_put_on;
@@ -57,6 +68,10 @@ void	push(t_info **info, char c)
 	first_take = *stack_to_take_from;
 	*stack_to_take_from = first_take->next;
 	first_take->next = *stack_to_put_on;
+	if (!*stack_to_put_on && c == 'a')
+		(*info)->a_last = first_take;
+	else if (!*stack_to_put_on && c == 'b')
+		(*info)->b_last = first_take;
 	*stack_to_put_on = first_take;
 	write(1, "p", 1);
 	write(1, &c, 1);
@@ -65,6 +80,7 @@ void	push(t_info **info, char c)
 
 void	rotate(t_info **info, char c)
 {
+	(*info)->moves++;
 	t_stack	*first;
 	t_stack	*curr;
 	t_stack	**head;
@@ -85,6 +101,10 @@ void	rotate(t_info **info, char c)
 	*head = first->next;
 	first->next = NULL;
 	curr->next = first;
+	if (c == 'a')
+		(*info)->a_last = first;
+	else
+		(*info)->b_last = first;
 	write(1, "r", 1);
 	write(1, &c, 1);
 	write(1, "\n", 1);
@@ -92,6 +112,7 @@ void	rotate(t_info **info, char c)
 
 void	reverse_rotate(t_info **info, char c)
 {
+	(*info)->moves++;
 	t_stack	*last;
 	t_stack	*curr;
 	t_stack	*first;
@@ -106,7 +127,7 @@ void	reverse_rotate(t_info **info, char c)
 	last = NULL;
 	if (!curr || !curr->next)
 	{
-		ft_printf("error at reverse_rotate\n");
+		ft_printf("error at reverse_rotate [%c]\n", c);
 		return ;
 	}
 	while (curr->next != NULL)
@@ -116,8 +137,15 @@ void	reverse_rotate(t_info **info, char c)
 		curr = curr->next;
 	}
 	last->next = NULL;
+	if (c == 'a')
+		(*info)->a_last = last;
+	else
+		(*info)->b_last = last;
 	curr->next = first;
 	*head = curr;
+	write(1, "rr", 2);
+	write(1, &c, 1);
+	write(1, "\n", 1);
 }
 
 // void	do_op(t_stack **stack_from, t_stack **stack_to, char *name)

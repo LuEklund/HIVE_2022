@@ -96,9 +96,11 @@ static int	add_list(t_info **info, int value)
 			add_largest(&curr, &new);
 		if (value < curr->value)
 			add_largest(&new, &curr);
+		(*info)->a_last = new;
 		curr->next = new;
 		// add_largest_last(a_stack, &new);
 	}
+	
 	return (1);
 }
 

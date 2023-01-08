@@ -27,6 +27,7 @@ int	main(int argc, char **argv)
 	info->smallest = NULL;
 	info->mid = NULL;
 	info->mid_mid = NULL;
+	info->first_mid_mid = NULL;
 	// info->a = malloc(sizeof(t_stack));
 	info->a = NULL;
 	// info->b = malloc(sizeof(t_stack));
@@ -58,7 +59,7 @@ int	main(int argc, char **argv)
 		// what_to_doer(&info);
 		// loop(&info->a, "stack[A]");
 		// loop(&info->b, "stack[B]");
-		// ft_printf("MOVES\n--===[%i]===--", info->moves);
+		ft_printf("MOVES\n--===[%i]===--", info->moves);
 	}
 	free_stack(&info->a);
 	free_stack(&info->b);

@@ -1,41 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   finder.c                                           :+:      :+:    :+:   */
+/*   a_sort.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leklund <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/06 18:11:27 by leklund           #+#    #+#             */
-/*   Updated: 2023/01/06 18:11:30 by leklund          ###   ########.fr       */
+/*   Created: 2023/01/08 16:54:22 by leklund           #+#    #+#             */
+/*   Updated: 2023/01/08 16:54:23 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/push_swap.h"
 #include "../libft/libft.h"
 #include "../ft_printf/ft_printf.h"
 
-int	opimmal_path_is_up_a(t_info **info)
+int	in_order(t_info **info, char c)
 {
 	t_stack	*curr;
-	int		i;
-	int		first_pos;
-	int		last_pos;
 
-	curr = (*info)->a;
-	i = 1;
-	first_pos = 0;
-	last_pos = 0;
-	while (curr)
+	if (c == 'a')
 	{
-		if (curr->value < (*info)->mid->value)
+		curr = (*info)->a;
+		while (curr)
 		{
-			if (!first_pos)
-				first_pos = i;
-			last_pos = i;
+			if (curr->next == curr->larger)
+				curr = curr->next;
+			else if (curr->larger == NULL)
+			{
+				if (in_order(&curr->next, 'a'))
+					return (2);
+				else
+					return (0);
+			}
+			else
+				return (0);
 		}
-		curr = curr->next;
-		i++;
 	}
-	if (first_pos <= (*info)->a_size - last_pos)
-		return (1);
-	return (0);
+	return (1);
 }
