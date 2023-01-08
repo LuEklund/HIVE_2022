@@ -59,7 +59,7 @@ int	main(int argc, char **argv)
 		// what_to_doer(&info);
 		// loop(&info->a, "stack[A]");
 		// loop(&info->b, "stack[B]");
-		ft_printf("MOVES\n--===[%i]===--", info->moves);
+		// ft_printf("MOVES\n--===[%i]===--", info->moves);
 	}
 	free_stack(&info->a);
 	free_stack(&info->b);

@@ -73,45 +73,51 @@ int	opimmal_path_is_up_b_larger(t_info **info)
 
 void	put_with_lower_half(t_info **info)
 {
-	int	way;
+	// int	way;
 
-	if (!(*info)->b || (*info)->b->value < (*info)->mid_mid->value || (*info)->b_last->value < (*info)->mid_mid->value)
+	if (!(*info)->b || (*info)->b->value < (*info)->mid_mid->value)
 		return ;
 	else
 	{
-		way = opimmal_path_is_up_b_smaller(&(*info));
-		if (way == 1)
+		// way = opimmal_path_is_up_b_smaller(&(*info));
+		// if (way == 1)
+		// {
+		if (opimmal_path_is_up_b_smaller(&(*info)))
 		{
 			while ((*info)->b->value >= (*info)->mid_mid->value)
 				rotate(&(*info), 'b');
 		}
-		else if (way == -1)
-		{
-			while ((*info)->b->value >= (*info)->mid_mid->value)
-				reverse_rotate(&(*info), 'b');
-		}
+		// }
+		// else if (way == -1)
+		// {
+		// 	while ((*info)->b->value >= (*info)->mid_mid->value)
+		// 		reverse_rotate(&(*info), 'b');
+		// }
 	}
 }
 
 void	put_with_higher_half(t_info **info)
 {
-	int	way;
+	// int	way;
 
-	if (!(*info)->b || (*info)->b->value >= (*info)->mid_mid->value || (*info)->b_last->value >= (*info)->mid_mid->value)
+	if (!(*info)->b || (*info)->b_last->value >= (*info)->mid_mid->value)
 		return ;
 	else
 	{
-		way = opimmal_path_is_up_b_larger(&(*info));
-		if (way == 1)
+		// way = opimmal_path_is_up_b_larger(&(*info));
+		// if (way == 1)
+		// {
+		if (opimmal_path_is_up_b_larger(&(*info)))
 		{
-			while ((*info)->b->value < (*info)->mid_mid->value)
+			while ((*info)->b_last->value < (*info)->mid_mid->value)
 				rotate(&(*info), 'b');
 		}
-		else if (way == -1)
-		{
-			while ((*info)->b->value < (*info)->mid_mid->value)
-				reverse_rotate(&(*info), 'b');
-		}
+	// 	}
+	// 	else if (way == -1)
+	// 	{
+	// 		while ((*info)->b_last->value < (*info)->mid_mid->value)
+	// 			reverse_rotate(&(*info), 'b');
+	// 	}
 	}
 }
 
@@ -125,4 +131,5 @@ void	put_in_b(t_info **info)
 	(*info)->b_size++;
 	(*info)->a_size--;
 	push(&(*info), 'b');
+
 }
