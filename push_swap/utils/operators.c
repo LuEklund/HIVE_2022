@@ -41,6 +41,9 @@ void	swap(t_info **info, char c)
 		(*info)->a_last = first;
 	else if (!third && c == 'a')
 		(*info)->b_last = first;
+	write(1, "s", 1);
+	write(1, &c, 1);
+	write(1, "\n", 1);
 }
 
 void	push(t_info **info, char c)
@@ -54,11 +57,15 @@ void	push(t_info **info, char c)
 	{
 		stack_to_take_from = &(*info)->b;
 		stack_to_put_on = &(*info)->a;
+		(*info)->a_size++;
+		(*info)->b_size--;
 	}
 	else
 	{
 		stack_to_take_from = &(*info)->a;
 		stack_to_put_on = &(*info)->b;
+		(*info)->b_size++;
+		(*info)->a_size--;
 	}
 	if (!(*stack_to_take_from))
 	{

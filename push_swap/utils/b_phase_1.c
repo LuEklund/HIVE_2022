@@ -128,8 +128,8 @@ void	put_in_b(t_info **info)
 		put_with_lower_half(&(*info));
 	else
 		put_with_higher_half(&(*info));
-	(*info)->b_size++;
-	(*info)->a_size--;
+	// (*info)->b_size++;
+	// (*info)->a_size--;
 	push(&(*info), 'b');
 
 }

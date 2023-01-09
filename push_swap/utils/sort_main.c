@@ -79,6 +79,23 @@ void	put_half_in_b(t_info **info)
 	}
 }
 
+void	fix_first_a(t_info **info)
+{
+	if ((*info)->a_size == 3)
+	{
+		if ((*info)->a->larger == NULL)
+			rotate(info, 'a');
+		if ((*info)->a->next->larger != NULL && (*info)->a->next->larger != (*info)->a_last)
+			swap(info, 'a');
+		else if ((*info)->a->next->larger != (*info)->a_last)
+			reverse_rotate(info, 'a');
+		if ((*info)->a_last->larger == NULL && (*info)->a->next->larger != (*info)->a_last)
+			swap(info, 'a');
+	}
+	else
+		rotate(info, 'a');
+}
+
 void	start_sort(t_info **info)
 {
 	while ((*info)->a_size > 3)
@@ -94,4 +111,7 @@ void	start_sort(t_info **info)
 		// ft_printf("Last element in stack[B] is [%i]\n", (*info)->b_last->value);
 		(*info)->smallest = (*info)->mid;
 	}
+	if (!in_order(&(*info)->a))
+		fix_first_a(info);
+	start_pushing_a(info);
 }
