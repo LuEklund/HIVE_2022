@@ -50,11 +50,13 @@ int		error_message(char *s);
 void	start_sort(t_info **info);
 void	free_stack(t_stack **stack);
 void	st_info(t_info **info);
-int		opimmal_path_is_up_a(t_info **info);
+int		optimmal_path_is_up_a(t_info **info);
 void	put_in_b(t_info **info);
 int		in_order(t_stack **stack);
 void	start_pushing_a(t_info **info);
+void	op_exe(t_info **info, void (*op_func)(t_info **, char), char c);
 // int		opimmal_path_is_up_b_larger(t_info **info);
+void	rotate_r(t_info **info);
 
 
 //TESTER INCLUDES REMOVE AND REMOVE IT FROM MAKEFILE ASWELL<------!!!!! OBS

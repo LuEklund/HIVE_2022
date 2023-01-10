@@ -155,11 +155,28 @@ void	reverse_rotate(t_info **info, char c)
 	write(1, "\n", 1);
 }
 
-// void	do_op(t_stack **stack_from, t_stack **stack_to, char *name)
-// {
-// 	(void) name;
-// 	if (!ft_strncmp(name, "Push", 4))
-// 		push(stack_from, stack_to);
-// 	// if (!ft_strncmp(name, "Rotate", 6))
-// 	// 	rotate();
-// }
+void	op_exe(t_info **info, void (*op_func)(t_info **, char), char c)
+{
+	if (c == 'a')
+	{
+		write(1, "r", 1);
+		write(1, &c, 1);
+		write(1, "\n", 1);
+		op_func(info, 'a');
+	}
+	else if (c == 'b')
+	{
+		write(1, "r", 1);
+		write(1, &c, 1);
+		write(1, "\n", 1);
+		op_func(info, 'a');
+	}
+	else if (c == 'r')
+	{
+		write(1, "r", 1);
+		write(1, &c, 1);
+		write(1, "\n", 1);
+		op_func(info, 'a');
+		op_func(info, 'b');
+	}
+}

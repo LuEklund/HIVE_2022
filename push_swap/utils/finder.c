@@ -13,7 +13,7 @@
 #include "../libft/libft.h"
 #include "../ft_printf/ft_printf.h"
 
-int	opimmal_path_is_up_a(t_info **info)
+int	optimmal_path_is_up_a(t_info **info)
 {
 	t_stack	*curr;
 	int		i;
@@ -26,7 +26,7 @@ int	opimmal_path_is_up_a(t_info **info)
 	last_pos = 0;
 	while (curr)
 	{
-		if (curr->value < (*info)->mid->value)
+		if (curr->value <= (*info)->mid->value)
 		{
 			if (!first_pos)
 				first_pos = i;
