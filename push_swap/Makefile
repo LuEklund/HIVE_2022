@@ -1,6 +1,6 @@
 NAME = push_swap
 
-SRC = tester.c utils/op_helper.c utils/a_sort.c utils/finder.c utils/put_in_b.c utils/start_sort.c utils/freer.c utils/integer_checker.c utils/error.c utils/operators.c push_swap.c
+SRC = utils/op_helper.c utils/a_sort.c utils/finder.c utils/put_in_b.c utils/start_sort.c utils/freer.c utils/integer_checker.c utils/error.c utils/operators.c push_swap.c
 
 OBJ = $(SRC:%.c=%.o)
 

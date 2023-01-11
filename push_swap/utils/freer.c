@@ -13,15 +13,24 @@
 
 void	free_stack(t_stack **stack)
 {
-	// t_stack	*curr;
-
-	// curr = *stack;
 	if (!*stack)
 		return ;
 	if ((*stack)->next)
 		free_stack(&(*stack)->next);
-	// printf("freed [%i]", (*stack)->value);
 	free(*stack);
 	stack = NULL;
-	
+}
+
+void	free_args(char **str_2d)
+{
+	int	argc;
+
+	argc = 0;
+	while (str_2d[argc] != NULL)
+	{
+		free(str_2d[argc]);
+		argc++;
+	}
+	free(str_2d[argc]);
+	free(str_2d);
 }

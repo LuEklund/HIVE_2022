@@ -37,10 +37,10 @@ int	in_order(t_stack **stack)
 
 int	find_largest_is_up(t_info **info)
 {
-	int	size;
-	int	i;
-	int	pos;
-	t_stack *curr;
+	int		size;
+	int		i;
+	int		pos;
+	t_stack	*curr;
 
 	i = 0;
 	pos = 0;
@@ -64,34 +64,33 @@ int	find_largest_is_up(t_info **info)
 		return (-1);
 }
 
-// void	bring_largest_top_b(t_info **info)
-// {
-// 	int	way;
-
-// 	way = find_largest_is_up(info);
-// 	if (way == 1)
-// 	{
-// 		while((*info)->b->larger != (*info)->a)
-// 			rotate(info, 'b');
-// 		// op_exe(info, &rotate, 'b');
-// 	}
-// 	else if (way == -1)
-// 	{
-// 		while((*info)->b->larger != (*info)->a)
-// 		reverse_rotate(info, 'b');
-// 	}
-// }
+void	reverse_bring_top_b(t_info **info)
+{
+	while ((*info)->b->larger != (*info)->a)
+	{
+		if ((*info)->b_last != (*info)->a
+			&& ((*info)->b->value > (*info)->a_last->value
+				|| (*info)->a_last->larger == NULL))
+		{
+			push(info, 'a');
+			rotate(info, 'a');
+		}
+		reverse_rotate(info, 'b');
+	}
+}
 
 void	bring_largest_top_b(t_info **info)
 {
-	int	way;
+	int		way;
 
 	way = find_largest_is_up(info);
 	if (way == 1)
 	{
 		while ((*info)->b->larger != (*info)->a)
 		{
-			if ((*info)->b->next->larger != (*info)->a && ((*info)->b->value > (*info)->a_last->value || (*info)->a_last->larger == NULL))
+			if ((*info)->b->next->larger != (*info)->a
+				&& ((*info)->b->value > (*info)->a_last->value
+					|| (*info)->a_last->larger == NULL))
 			{
 				push(info, 'a');
 				rotate_r(info);
@@ -99,12 +98,10 @@ void	bring_largest_top_b(t_info **info)
 			else
 				rotate(info, 'b');
 		}
-		
 	}
 	else if (way == -1)
 	{
-		while((*info)->b->larger != (*info)->a)
-		reverse_rotate(info, 'b');
+		reverse_bring_top_b(info);
 	}
 	else
 		reverse_rotate(info, 'a');
@@ -112,14 +109,16 @@ void	bring_largest_top_b(t_info **info)
 
 void	start_pushing_a(t_info **info)
 {
-	while ((*info)->b_size)
+	while ((*info)->b != NULL)
 	{
 		while ((*info)->b && (*info)->b->larger == (*info)->a)
 			push(info, 'a');
-		if ((*info)->b && (*info)->b->next->larger == (*info)->a)
+		if ((*info)->b && (*info)->b->next
+			&& (*info)->b->next->larger == (*info)->a)
 			swap(info, 'b');
 		else if ((*info)->b)
 			bring_largest_top_b(info);
 	}
+	while ((*info)->a_last->larger != NULL)
+		reverse_rotate(info, 'a');
 }
-

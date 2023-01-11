@@ -13,7 +13,6 @@
 #include "../libft/libft.h"
 #include "../ft_printf/ft_printf.h"
 
-
 int	opimmal_path_is_up_b_smaller(t_info **info)
 {
 	t_stack	*curr;
@@ -76,19 +75,22 @@ void	put_with_lower_half(t_info **info)
 {
 	int	way;
 
-	if (!(*info)->b || (*info)->b->value <= (*info)->mid_mid->value || (*info)->b_last->value <= (*info)->mid_mid->value)
+	if (!(*info)->b || (*info)->b->value <= (*info)->mid_mid->value
+		|| (*info)->b_last->value <= (*info)->mid_mid->value)
 		return ;
 	else
 	{
 		way = opimmal_path_is_up_b_smaller(&(*info));
 		if (way == 1)
 		{
-			while ((*info)->b->value > (*info)->mid_mid->value && (*info)->b_last->value > (*info)->mid_mid->value)
+			while ((*info)->b->value > (*info)->mid_mid->value
+				&& (*info)->b_last->value > (*info)->mid_mid->value)
 				rotate(&(*info), 'b');
 		}
 		else if (way == -1)
 		{
-			while ((*info)->b->value > (*info)->mid_mid->value && (*info)->b_last->value > (*info)->mid_mid->value)
+			while ((*info)->b->value > (*info)->mid_mid->value
+				&& (*info)->b_last->value > (*info)->mid_mid->value)
 				reverse_rotate(&(*info), 'b');
 		}
 		else
@@ -102,19 +104,22 @@ void	put_with_higher_half(t_info **info)
 {
 	int	way;
 
-	if (!(*info)->b || (*info)->b_last->value > (*info)->mid_mid->value || (*info)->b->value > (*info)->mid_mid->value)
+	if (!(*info)->b || (*info)->b_last->value > (*info)->mid_mid->value
+		|| (*info)->b->value > (*info)->mid_mid->value)
 		return ;
 	else
 	{
 		way = opimmal_path_is_up_b_larger(&(*info));
 		if (way == 1)
 		{
-			while ((*info)->b_last->value <= (*info)->mid_mid->value && (*info)->b->value <= (*info)->mid_mid->value)
+			while ((*info)->b_last->value <= (*info)->mid_mid->value
+				&& (*info)->b->value <= (*info)->mid_mid->value)
 				rotate(&(*info), 'b');
 		}
 		else if (way == -1)
 		{
-			while ((*info)->b_last->value <= (*info)->mid_mid->value && (*info)->b->value <= (*info)->mid_mid->value)
+			while ((*info)->b_last->value <= (*info)->mid_mid->value
+				&& (*info)->b->value <= (*info)->mid_mid->value)
 				reverse_rotate(&(*info), 'b');
 		}
 		else
@@ -124,25 +129,11 @@ void	put_with_higher_half(t_info **info)
 	}
 }
 
-
-
-
-
 void	put_in_b(t_info **info)
 {
 	if ((*info)->a->value <= (*info)->mid_mid->value)
 		put_with_lower_half(&(*info));
 	else
 		put_with_higher_half(&(*info));
-	if ((*info)->first_mid_mid != NULL)
-	{
-		while ((*info)->b->value <= (*info)->first_mid_mid->value)
-			rotate(&(*info), 'b');
-	}
 	push(&(*info), 'b');
-	if((*info)->first_mid_mid)
-	{
-		while ((*info)->b->value > (*info)->mid_mid->value)
-			rotate(&(*info), 'b');
-	}
 }

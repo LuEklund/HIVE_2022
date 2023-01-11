@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 #include "../ft_printf/ft_printf.h"
 
-int	error_message(char *s)
+int	error_message(void)
 {
 	ft_printf("Error\n");
-	ft_printf("%s\n", s);
 	return (0);
 }

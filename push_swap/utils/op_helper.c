@@ -15,7 +15,6 @@
 
 void	rotate1(t_info **info, char c)
 {
-	(*info)->moves++;
 	t_stack	*first;
 	t_stack	*curr;
 	t_stack	**head;
@@ -47,4 +46,26 @@ void	rotate_r(t_info **info)
 	ft_printf("rr\n");
 	rotate1(info, 'a');
 	rotate1(info, 'b');
+}
+
+t_stack	**head_helper(t_info **info, char c)
+{
+	if (c == 'a')
+		return (&(*info)->a);
+	else
+		return (&(*info)->b);
+}
+
+void	push_helper(t_info **info, char c)
+{
+	if (c == 'a')
+	{
+		(*info)->a_size++;
+		(*info)->b_size--;
+	}
+	else
+	{
+		(*info)->b_size++;
+		(*info)->a_size--;
+	}
 }

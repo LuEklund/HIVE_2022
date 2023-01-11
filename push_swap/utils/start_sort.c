@@ -20,7 +20,7 @@ void	find_mid(t_info **info)
 
 	steps = 0;
 	mid = (*info)->smallest;
-	steps = (*info)->a_size / 2;
+	steps = (*info)->a_size / ((*info)->mid_mid_dev / 2);
 	(*info)->steps = steps;
 	steps--;
 	while (steps > 0)
@@ -29,7 +29,7 @@ void	find_mid(t_info **info)
 		steps--;
 	}
 	(*info)->mid = mid;
-	steps = (*info)->a_size / 4;
+	steps = (*info)->a_size / (*info)->mid_mid_dev;
 	steps--;
 	mid = (*info)->smallest;
 	while (steps > 0)
@@ -61,29 +61,26 @@ void	put_half_in_b(t_info **info)
 
 void	fix_b_stack_position(t_info **info)
 {
-	if ((*info)->b->value <= (*info)->first_mid_mid->value)
+	if ((*info)->b->value <= (*info)->mid_mid->value)
 	{
-		while ((*info)->b->value <= (*info)->first_mid_mid->value)
+		while ((*info)->b->value <= (*info)->mid_mid->value)
 			rotate(&(*info), 'b');
-	}
-	else if ((*info)->b_last->value > (*info)->first_mid_mid->value)
-	{
-		while ((*info)->b_last->value > (*info)->first_mid_mid->value)
-			reverse_rotate(&(*info), 'b');
 	}
 }
 
-void	fix_first_a(t_info **info)
+void	fix_first_last_a(t_info **info)
 {
 	if ((*info)->a_size == 3)
 	{
 		if ((*info)->a->larger == NULL)
 			rotate(info, 'a');
-		if ((*info)->a->next->larger != NULL && (*info)->a->next->larger != (*info)->a_last)
+		if ((*info)->a->next->larger != NULL
+			&& (*info)->a->next->larger != (*info)->a_last)
 			swap(info, 'a');
 		else if ((*info)->a->next->larger != (*info)->a_last)
 			reverse_rotate(info, 'a');
-		if ((*info)->a_last->larger == NULL && (*info)->a->next->larger != (*info)->a_last)
+		if ((*info)->a_last->larger == NULL
+			&& (*info)->a->next->larger != (*info)->a_last)
 			swap(info, 'a');
 	}
 	else
@@ -92,7 +89,9 @@ void	fix_first_a(t_info **info)
 
 void	start_sort(t_info **info)
 {
-	while ((*info)->a_size > 3)
+	if (in_order(&(*info)->a))
+		return ;
+	while ((*info)->a_size > (*info)->mid_mid_dev)
 	{
 		find_mid(&(*info));
 		put_half_in_b(&(*info));
@@ -101,7 +100,18 @@ void	start_sort(t_info **info)
 		fix_b_stack_position(&(*info));
 		(*info)->smallest = (*info)->mid->larger;
 	}
+	while ((*info)->a_size > 3)
+	{
+		if ((*info)->a->larger == NULL)
+			rotate(info, 'a');
+		else if ((*info)->a->larger->larger == NULL)
+			rotate(info, 'a');
+		else if ((*info)->a->larger->larger->larger == NULL)
+			rotate(info, 'a');
+		else
+			push(info, 'b');
+	}
 	if (!in_order(&(*info)->a))
-		fix_first_a(info);
+		fix_first_last_a(info);
 	start_pushing_a(info);
 }
