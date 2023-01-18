@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   client_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leklund <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 14:32:36 by leklund           #+#    #+#             */
-/*   Updated: 2023/01/15 14:32:39 by leklund          ###   ########.fr       */
+/*   Created: 2023/01/18 17:28:15 by leklund           #+#    #+#             */
+/*   Updated: 2023/01/18 17:28:18 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef SERVER_H
-# define SERVER_H
-# include <unistd.h>
+#ifndef CLIENT_BONUS_H
+# define CLIENT_BONUS_H
 # include <signal.h>
-
-typedef struct s_info
-{
-	char	*str;
-	char	temp_c;
-	int		index;
-	int		client_pid;
-}				t_info;
 
 #endif

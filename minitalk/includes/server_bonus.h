@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   server_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leklund <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 14:32:36 by leklund           #+#    #+#             */
-/*   Updated: 2023/01/15 14:32:39 by leklund          ###   ########.fr       */
+/*   Created: 2023/01/18 17:28:26 by leklund           #+#    #+#             */
+/*   Updated: 2023/01/18 17:28:29 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef SERVER_H
-# define SERVER_H
+#ifndef SERVER_BONUS_H
+# define SERVER_BONUS_H
 # include <unistd.h>
 # include <signal.h>
 

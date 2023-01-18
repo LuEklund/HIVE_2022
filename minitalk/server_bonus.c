@@ -1,15 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leklund <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 16:09:32 by leklund           #+#    #+#             */
-/*   Updated: 2023/01/12 16:09:33 by leklund          ###   ########.fr       */
+/*   Created: 2023/01/18 17:27:52 by leklund           #+#    #+#             */
+/*   Updated: 2023/01/18 17:27:54 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "includes/server.h"
+#include "includes/server_bonus.h"
 #include "libft/libft.h"
 #include "ft_printf/ft_printf.h"
 
@@ -73,6 +73,7 @@ void	handle_sigusr(int sig, siginfo_t *sa_info, void *context)
 	g_info.index >>= 1;
 	if (!g_info.index && !g_info.temp_c)
 	{
+		kill(g_info.client_pid, SIGUSR1);
 		ft_printf("%s\n", g_info.str);
 		reseter(1);
 	}

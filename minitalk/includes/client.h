@@ -9,12 +9,8 @@
 /*   Updated: 2023/01/15 14:32:47 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef CLIENT_h
-# define CLIENT_h
-# include <unistd.h>
+#ifndef CLIENT_H
+# define CLIENT_H
 # include <signal.h>
-
-//REMOVE INCLUDE
-# include <stdio.h>
 
 #endif

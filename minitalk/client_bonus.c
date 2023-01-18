@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leklund <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 16:09:17 by leklund           #+#    #+#             */
-/*   Updated: 2023/01/12 16:09:18 by leklund          ###   ########.fr       */
+/*   Created: 2023/01/18 17:27:34 by leklund           #+#    #+#             */
+/*   Updated: 2023/01/18 17:27:37 by leklund          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "includes/client.h"
+#include "includes/client_bonus.h"
 #include "libft/libft.h"
+#include "ft_printf/ft_printf.h"
 
 void	handle_sigusr(int sig)
 {
-	if (sig == SIGUSR2)
+	if (sig == SIGUSR1)
+		ft_printf("Message recived!\n");
+	else
+	{
+		ft_printf("Message failed!\n");
 		exit (0);
+	}
 }
 
 int	send_char_to_server(int pid, unsigned char c)
@@ -61,6 +67,7 @@ int	main(int argc, char **argv)
 	struct sigaction	sa;
 
 	sa.sa_handler = &handle_sigusr;
+	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	if (argc == 3)
 	{
