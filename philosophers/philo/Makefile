@@ -1,6 +1,6 @@
 NAME = philo
 
-SRC = utils/processes.c utils/start_eat.c utils/freer.c philo.c
+SRC = utils/thread_check.c utils/processes.c utils/start_eat.c utils/freer.c philo.c
 
 OBJ = $(SRC:%.c=%.o)
 

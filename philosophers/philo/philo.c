@@ -52,7 +52,7 @@ int	make_values(int argc, char **argv, t_info *info)
 	info->eat = nbr_conv(argv[3]);
 	info->sleep = nbr_conv(argv[4]);
 	if (info->philo_amount == -1 || info->die == -1 || info->eat == -1
-		|| info->sleep == -1)
+		|| info->sleep == -1 || !info->philo_amount)
 		return (0);
 	return (1);
 }
@@ -76,7 +76,7 @@ int	create_philosophers(t_info *info, t_philo **philo)
 		new->fork_taken = 0;
 		new->eaten = 0;
 		new->last_ate = 0;
-		new->say_think = 1;
+		new->say_think = 0;
 		new->next = NULL;
 		new->info = info;
 		if (!(*philo))
@@ -102,9 +102,8 @@ int	main(int argc, char **argv)
 	{
 		if (make_values(argc, argv, info) && create_philosophers(info, &philo))
 		{
-			info->valid = 1;
+			info->valid = 0;
 			start_eating(philo);
-			printf("GOOD\n");
 		}
 	}
 	free_list(philo);

@@ -44,10 +44,16 @@ typedef struct s_philo
 }				t_philo;
 
 void	free_list(t_philo *philo);
+
 void	start_eating(t_philo *philo);
-int		eat(t_philo *philo);
-int		think(t_philo *philo);
-int		can_grab_froks(t_philo *philo);
-int		died(t_philo *philo);
+
 int		get_time_diff(t_philo *philo);
+int		can_grab_fork(t_philo *philo);
+int		eat(t_philo *philo);
+// int		think(t_philo *philo);
+// int		died(t_philo *philo);
+int		int_mutexs(int amount, t_philo *philo);
+int		close_threads(int amount, t_philo *philo);
+void	sleeping_death(t_philo *philo, int times_ms);
+int		check_if_valid_game(t_philo *philo);
 #endif

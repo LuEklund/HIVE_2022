@@ -25,17 +25,39 @@ int	get_time_diff(t_philo *philo)
 	return (time);
 }
 
+void	sleeping_death(t_philo *philo, int times_ms)
+{
+	int	time;
+
+	time = get_time_diff(philo);
+	// printf("P[%d]wants to sleep for %dms\n", philo->nbr, times_ms);
+	times_ms = times_ms + time;
+	// printf("P[%d] want to sleep for[%d]\n", philo->nbr, times_ms - time);
+	while (times_ms > time)
+	{
+		time = get_time_diff(philo);
+		if (0 >= philo->info->die - (time - philo->last_ate))
+		{
+			printf("%d %i died - LAST[%d]\n", time, philo->nbr, philo->last_ate);
+			philo->info->valid = 0;
+			break ;
+		}
+		usleep(100);
+	}
+	return ;
+}
+
 int	sleeping(t_philo *philo)
 {
 	int				time;
 
-	time = get_time_diff(philo);
-	printf("%d %i is sleeping\n", time, philo->nbr);
+	
 	philo->fork_taken = 0;
 	philo->next->fork_taken = 0;
 	philo->eaten += 1;
-	// if
-	usleep(philo->info->sleep * 1000);
+	time = get_time_diff(philo);
+	printf("%d %i is sleeping\n", time, philo->nbr);
+	sleeping_death(philo, philo->info->sleep);
 	return (1);
 }
 
@@ -45,38 +67,19 @@ int	eat(t_philo *philo)
 
 	time = get_time_diff(philo);
 	printf("%d %i is eating\n", time, philo->nbr);
-	usleep(philo->info->eat * 1000);
-	time = get_time_diff(philo);
 	philo->last_ate = time;
+	sleeping_death(philo, philo->info->eat);
 	sleeping(philo);
 	return (1);
 }
 
-int	can_grab_froks(t_philo *philo)
+int	can_grab_fork(t_philo *philo)
 {
-	int				time;
-
-	if (!philo->fork_taken && !philo->next->fork_taken)
+	if (!philo->fork_taken)
 	{
 		philo->fork_taken = 1;
-		time = get_time_diff(philo);
-		printf("%d %i has taken a fork\n", time, philo->nbr);
-		philo->next->fork_taken = 1;
-		time = get_time_diff(philo);
-		printf("%d %i has taken a fork\n", time, philo->nbr);
 		return (1);
 	}
 	else
-	{
 		return (0);
-	}
-}
-
-int	think(t_philo *philo)
-{
-	int	time;
-
-	time = get_time_diff(philo);
-	printf("%d %i is thinking\n", time, philo->nbr);
-	return (1);
 }

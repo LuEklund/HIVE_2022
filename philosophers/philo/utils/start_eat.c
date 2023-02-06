@@ -11,22 +11,45 @@
 /* ************************************************************************** */
 #include "../includes/philo.h"
 
-int	all_have_eaten(t_philo *philo)
-{
-	int		amount;
-	t_philo	*curr;
 
-	amount = philo->info->philo_amount;
-	curr = philo;
-	while (amount)
+int	can_wait(t_philo *philo)
+{
+	int		time;
+
+	time = get_time_diff(philo);
+	time = philo->info->die - (time - philo->last_ate);
+	// printf("P[%d]: time until Death[%d] (can_wait)\n",philo->nbr, time);
+	if (time > 10)
 	{
-		if (curr->eaten >= curr->info->must_eat)
-			curr = curr->next;
-		else
-			return (0);
-		amount--;
+		// printf("P[%d]: sleep time [%d]ms (can_wait)\n",philo->nbr, time/2);
+		return (time / 2);
 	}
-	return (1);
+	return (0);
+
+}
+
+int	try_eating( t_philo *first, t_philo *seccond)
+{
+	int can_eat;
+
+	pthread_mutex_lock(&first->mutex);
+	can_eat = can_grab_fork(first);
+	pthread_mutex_unlock(&first->mutex);
+	pthread_mutex_lock(&seccond->mutex);
+	if (can_eat)
+	{
+		if (can_grab_fork(seccond))
+			can_eat = 2;
+		else
+		{
+			can_eat = 0;
+			first->fork_taken = 0;
+		}
+	}
+	else
+		can_eat = 0;
+	pthread_mutex_unlock(&seccond->mutex);
+	return (can_eat);
 }
 
 void	*routine(void *arg)
@@ -34,33 +57,46 @@ void	*routine(void *arg)
 	t_philo	*philo;
 	int		can_eat;
 	int		time;
+	struct timeval	tv;
+
 
 	philo = arg;
+	can_eat = 0;
+	while (!philo->info->valid)
+		;
+	gettimeofday(&tv, NULL);
+	philo->info->start_time_ms = tv.tv_usec / 1000;
+	philo->info->start_time_sec = tv.tv_sec;
+	// if (!(philo->nbr % 2))
+		// sleeping_death(philo, 3);
 	while (philo->info->valid)
 	{
-		can_eat = 0;
-		pthread_mutex_lock(&philo->mutex);
-		pthread_mutex_lock(&philo->next->mutex);
-		can_eat = can_grab_froks(arg);
-		pthread_mutex_unlock(&philo->mutex);
-		pthread_mutex_unlock(&philo->next->mutex);
-		time = get_time_diff(philo);
-		if (philo->info->die <= time - philo->last_ate)
+		if (philo->nbr % 2)
+			can_eat = try_eating(philo, philo->next);
+		else
+			can_eat = try_eating(philo->next, philo);
+		if (can_eat)
 		{
-			printf("die_time[%i], last_ate[%d], time[%i]\n", philo->info->die, philo->last_ate, time);
-			philo->info->valid = 0;
+			eat(philo);
+			philo->say_think = 1;
+		}
+		if (philo->say_think)
+		{
+			philo->say_think = 0;
+			time = get_time_diff(philo);
+			printf("%d %i is thinking\n", time, philo->nbr);
+			// sleeping_death(philo, 1);
+			// printf("P[%d] die_time[%i], last_ate[%d], time[%i], TTD[%d]\n", philo->nbr, philo->info->die, philo->last_ate, time, philo->info->die - (time - philo->last_ate));
+			sleeping_death(philo, can_wait(philo));
 		}
 		else
 		{
-			if (can_eat)
+			time = get_time_diff(philo);
+			if (0 >= philo->info->die - (time - philo->last_ate))
 			{
-				eat(arg);
-				philo->say_think = 1;
-			}
-			else if	(philo->say_think)
-			{
-				think(philo);
-				philo->say_think = 0;
+				printf("%d %i died - LAST[%d]\n", time, philo->nbr, philo->last_ate);
+				// printf("P[%d] die_time[%i], last_ate[%d], time[%i]\n", philo->nbr, philo->info->die, philo->last_ate, time);
+				philo->info->valid = 0;
 			}
 		}
 	}
@@ -71,21 +107,11 @@ void	start_eating(t_philo *philo)
 {
 	t_philo			*curr;
 	int				amount;
-	struct timeval	tv;
 
 	amount = philo->info->philo_amount;
 	curr = philo;
-	while (amount)
-	{
-		pthread_mutex_init(&curr->mutex, NULL);
-		curr = curr->next;
-		amount--;
-	}
-	amount = philo->info->philo_amount;
-	curr = philo;
-	gettimeofday(&tv, NULL);
-	philo->info->start_time_ms = tv.tv_usec / 1000;
-	philo->info->start_time_sec = tv.tv_sec;
+	int_mutexs(amount, philo);
+	philo->info->valid = 0;
 	while (amount)
 	{
 		if (pthread_create(&curr->th, NULL, &routine, curr) != 0)
@@ -97,22 +123,6 @@ void	start_eating(t_philo *philo)
 	}
 	amount = philo->info->philo_amount;
 	curr = philo;
-	while (philo->info->valid)
-	{
-		if (all_have_eaten(philo))
-		{
-			philo->info->valid = 0;
-			printf("all ate\n");
-		}
-	}
-	while (amount)
-	{
-		if (pthread_join(curr->th, (void **) NULL) != 0)
-		{
-			printf("JOIN ERROR");
-		}
-		pthread_mutex_destroy(&philo->mutex);
-		curr = curr->next;
-		amount--;
-	}
+	check_if_valid_game(philo);
+	close_threads(amount, philo);
 }
